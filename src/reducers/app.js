@@ -10,6 +10,7 @@ import {
 const initialState = {
   width: undefined,
   height: undefined,
+  instantiated: false,
 };
 
 const handlers = {

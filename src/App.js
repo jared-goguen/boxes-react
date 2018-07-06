@@ -1,7 +1,11 @@
+import './styles/App.scss';
+
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader'
 import { connect } from 'react-redux';
-import { setWindowSize } from '../actions/app';
+import { setWindowSize } from './actions/app';
+
+import Main from './screens/Main'
 
 
 class App extends Component {
@@ -17,16 +21,18 @@ class App extends Component {
   }
 
   render() {
+    let contents = this.props.instantiated ? <Main /> : null;
+
     return (
-      <div className="App" ref={this.ref}>
-        {this.props.boxes}
+      <div className='App' ref={this.ref}>
+        {contents}
       </div>
     );
   }
 }
 
 const select = (state) => ({
-  boxes: state.elements.boxes
+  instantiated: state.app.instantiated
 });
 
 export default hot(module)(connect(select)(App));
