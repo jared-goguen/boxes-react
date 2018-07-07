@@ -4,7 +4,7 @@ import {
 
 import { 
   createReducer,
-  reduceAction
+  forwardAction
 } from './utils';
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const handlers = {
-  [SET_WINDOW_SIZE]: (state, action) => reduceAction(action)
+  [SET_WINDOW_SIZE]: forwardAction
 };
 
 export default createReducer(initialState, handlers);

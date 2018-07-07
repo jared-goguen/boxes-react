@@ -3,12 +3,14 @@ import '../styles/Grid.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Box from './Box';
-
 class Grid extends Component {
+  getStyle = () => {
+    return this.props.padding;
+  }
+
   render() {
     return (
-      <div className='Grid'>
+      <div className='Grid' style={this.getStyle()}>
         {this.props.elements.map((row_elements, row) => (
           <div key={row}>
             {row_elements}

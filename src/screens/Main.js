@@ -2,37 +2,42 @@ import '../styles/Main.scss';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { setGridPadding, toggleColor } from '../actions/elements';
 
-import Box from '../components/Box';
+import MainBox from '../components/MainBox';
 import Grid from '../components/Grid';
 
 
-const colors = [
-  '#eaff7b',
-  '#00ffab',
-  '#29bdc1',
-  '#d84242',
-  '#913f92',
-];
-
-const N = colors.length;
-
-
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.props.dispatch(setGridPadding(this.getPadding()));
+  }
+
+  getPadding = () => {
+    const grid_width = this.props.side * Object.keys(this.props.colors).length;
+    const grid_height = this.props.side;
+    return {
+      top: (this.props.height - grid_height) / 2,
+      left: (this.props.width - grid_width) / 2,
+    };
+  }
+
+  partialOnClick(event) {
+    this.props.dispatch(toggleColor(this.props.color));
+  }
 
   render() {
-
-    const elements = [colors.map((color, index) => (
-      <Box 
+    const elements = [Object.keys(this.props.colors).map((color, index) => (
+      <MainBox 
         key={index} 
         color={color}
         side={this.props.side} 
         row={0} 
         col={index} 
-        onClick={null} 
+        partialOnClick={this.partialOnClick} 
       />
     ))];
-
 
     return (
       <div className='Main'>
@@ -44,8 +49,9 @@ class Main extends Component {
 
 const select = (state) => {
   const { width, height } = state.app;
-  const side = Math.min(width, height) / (N + 2);
-  return { width, height, side };
+  const { colors } = state.elements;
+  const side = Math.min(width, height) / (Object.keys(colors).length + 2);
+  return { width, height, colors, side };
 };
 
 export default connect(select)(Main);

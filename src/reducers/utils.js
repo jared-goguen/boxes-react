@@ -6,11 +6,9 @@ export const createReducer = (initialState, handlers) => {
   };
 };
 
-export const reduceAction = (action) => {
+export const forwardAction = (state, action) => {
   let reduced = Object.assign({}, action);
   delete reduced.type;
   return reduced;
 }
 
-
-export default { createReducer };
