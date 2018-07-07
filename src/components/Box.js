@@ -9,6 +9,7 @@ class Box extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ref: React.createRef(),
       classNames: ['BoxInner']
     };
     this.onClick = this.props.partialOnClick.bind(this);
@@ -35,20 +36,25 @@ class Box extends Component {
   }
 
   getBox(classNames) {
+    if (this.props.shake && classNames.indexOf('bubble') === -1) {
+      classNames.push('shake');
+    }
     return (
       <div className='Box' style={this.getStyle()}>
         <div 
           className={constructClass(classNames)} 
           style={this.getInnerStyle()}
           onClick={this.onClick}
+          ref={this.state.ref}
         />
       </div>
     );
   }
 }
 
-const select = (state) => ({
-  padding: state.elements.padding
+export const selectBox = (state) => ({
+  padding: state.elements.padding,
+  shake: state.elements.shake
 });
 
 export default Box;

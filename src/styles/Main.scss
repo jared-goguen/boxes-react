@@ -3,3 +3,21 @@
 .Main {
   @extend %screen;
 }
+
+.MainButton {
+  @extend %inner;
+  @extend %button;
+  background: #eeeeee;
+
+  &:hover {
+    background: #ffffff;
+  }
+}
+
+.MainButtonWrapper {
+  @extend %wrapper;
+  right: 3%;
+  bottom: 3%;
+  height: 12%;
+  width: 12%
+}

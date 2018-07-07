@@ -8,3 +8,23 @@
   height: 100%;
   position: relative;
 }
+
+%wrapper {
+  position: absolute;
+}
+
+%inner {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1.0;
+  }
+}
+
+%button {
+  padding: 0;
+  border: 0;
+}

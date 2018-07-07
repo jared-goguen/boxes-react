@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import Box from './Box';
+import Box, { selectBox } from './Box';
 
 
 class MainBox extends Box {
@@ -14,10 +14,9 @@ class MainBox extends Box {
 }
 
 const select = (state) => {
-  console.log(state)
   return {
-    padding: state.elements.padding,
-    colors: state.elements.colors
+    colors: state.elements.colors,
+    ...selectBox(state)
   };
 }
 
