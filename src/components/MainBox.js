@@ -5,7 +5,7 @@ import Box, { selectBox } from './Box';
 
 class MainBox extends Box {
   render() {
-    const classNames = ['BoxInner'];
+    const classNames = ['BoxInner', 'MainBox'];
     if (this.props.colors[this.props.color]) {
       classNames.push('bubble');
     }

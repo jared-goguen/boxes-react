@@ -2,7 +2,8 @@ import {
   SET_GRID_PADDING,
   TOGGLE_COLOR,
   REGISTER_BOXES,
-  SHAKE_BOXES
+  SHAKE_BOXES,
+  FADE_BOXES
 } from '../actions';
 
 export function setGridPadding(padding) {
@@ -17,11 +18,19 @@ export function registerBoxes(boxes) {
   return { type: REGISTER_BOXES, boxes };
 }
 
-export function shakeBoxes() {
-  return dispatch => {
-    dispatch({ type: SHAKE_BOXES, shake: true });
-    setTimeout(() => {
-      dispatch({ type: SHAKE_BOXES, shake: false });
-    }, 500);
+function animation(type, property, timeout) {
+  return () => {
+    return dispatch => {
+      dispatch({ type, [property]: true });
+      if (timeout) {
+        setTimeout(() => {
+          dispatch({ type, [property]: false });
+        }, timeout);
+      }
+    }
   }
 }
+
+export const shakeBoxes = animation(SHAKE_BOXES, 'shake', 500);
+
+export const fadeBoxes = animation(FADE_BOXES, 'fade');

@@ -2,7 +2,8 @@ import {
   SET_GRID_PADDING,
   TOGGLE_COLOR,
   REGISTER_BOXES,
-  SHAKE_BOXES
+  SHAKE_BOXES,
+  FADE_BOXES
 } from '../actions';
 
 import { 
@@ -28,7 +29,8 @@ const initialState = {
     left: 0,
     top: 0
   },
-  shake: false
+  shake: false,
+  fade: false,
 };
 
 const handlers = {
@@ -40,7 +42,8 @@ const handlers = {
     return { colors };
   },
   [REGISTER_BOXES]: forwardAction,
-  [SHAKE_BOXES]: forwardAction
+  [SHAKE_BOXES]: forwardAction,
+  [FADE_BOXES]: forwardAction
 };
 
 export default createReducer(initialState, handlers);

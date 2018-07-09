@@ -2,7 +2,13 @@ import '../styles/Main.scss';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setGridPadding, toggleColor, registerBoxes, shakeBoxes } from '../actions/elements';
+import { 
+  setGridPadding, 
+  toggleColor, 
+  registerBoxes, 
+  shakeBoxes,
+  fadeBoxes 
+} from '../actions/elements';
 
 import MainBox from '../components/MainBox';
 import Grid from '../components/Grid';
@@ -47,7 +53,7 @@ class Main extends Component {
       }
     }
     if (selected.length > 2) {
-      alert('transition')
+      this.props.dispatch(fadeBoxes());
     } else {
       this.props.dispatch(shakeBoxes());
     }

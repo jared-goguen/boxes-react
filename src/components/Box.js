@@ -39,6 +39,9 @@ class Box extends Component {
     if (this.props.shake && classNames.indexOf('bubble') === -1) {
       classNames.push('shake');
     }
+    if (this.props.fade) {
+      classNames.push('fade');
+    }
     return (
       <div className='Box' style={this.getStyle()}>
         <div 
@@ -54,7 +57,8 @@ class Box extends Component {
 
 export const selectBox = (state) => ({
   padding: state.elements.padding,
-  shake: state.elements.shake
+  shake: state.elements.shake,
+  fade: state.elements.fade
 });
 
 export default Box;
