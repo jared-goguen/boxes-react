@@ -7,7 +7,7 @@ import {
   toggleColor, 
   registerBoxes, 
   shakeBoxes,
-  fadeBoxes 
+  transitionToSimon 
 } from '../actions/elements';
 
 import MainBox from '../components/MainBox';
@@ -53,7 +53,7 @@ class Main extends Component {
       }
     }
     if (selected.length > 2) {
-      this.props.dispatch(fadeBoxes());
+      this.props.dispatch(transitionToSimon());
     } else {
       this.props.dispatch(shakeBoxes());
     }

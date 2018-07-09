@@ -11,4 +11,3 @@ export const forwardAction = (state, action) => {
   delete reduced.type;
   return reduced;
 }
-

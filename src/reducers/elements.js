@@ -8,27 +8,32 @@ import {
 
 import { 
   createReducer,
-  forwardAction
+  forwardAction,
 } from './utils';
 
+import { ActionQueue } from '../ActionQueue';
+
+
+const allColors = [
+  '#b31237',
+  '#f03813',
+  '#ff8826',
+  '#ffb914',
+  '#3be2a8',
+  '#2c9fa3',
+  '#913f92',
+];
 
 
 const initialState = {
   boxes: [],
-  colors: {
-    '#b31237': false,
-    '#f03813': false,
-    '#ff8826': false,
-    '#ffb914': false,
-    '#3be2a8': false,
-    '#2c9fa3': false,
-    '#913f92': false
-  },
+  colors: allColors.reduce((o, c) => {o[c] = false; return o;}, {}),
   selected: [],
   padding: {
     left: 0,
     top: 0
   },
+  actions: new ActionQueue(),
   shake: false,
   fade: false,
 };
