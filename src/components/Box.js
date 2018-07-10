@@ -4,20 +4,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import constructClass from 'classnames';
 
+import { addBoxClass, removeBoxClass, toggleBoxClass } from '../actions/elements';
+
 
 class Box extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      ref: React.createRef(),
-      classNames: ['BoxInner']
-    };
     this.onClick = this.props.partialOnClick.bind(this);
   }
 
-  addClassName(name) {
-    const classNames = [ ...this.state.classNames, name ];
-    this.setState({ classNames });
+  addClass(name, condition) {
+    if (typeof condition !== 'function' || condition(this.props)) {
+      this.props.dispatch(addBoxClass(this.props.row, this.props.col, name));
+    }
+  }
+
+  removeClass(name, condition) {
+    if (typeof condition !== 'function' || condition(this.props)) {
+      this.props.dispatch(removeBoxClass(this.props.row, this.props.col, name));
+    }
+  }
+
+  toggleClass(name, condition) {
+    if (typeof condition !== 'function' || condition(this.props)) {
+      this.props.dispatch(toggleBoxClass(this.props.row, this.props.col, name));
+    }
   }
 
   getStyle() {
@@ -35,30 +46,22 @@ class Box extends Component {
     }
   }
 
-  getBox(classNames) {
-    if (this.props.shake && classNames.indexOf('bubble') === -1) {
-      classNames.push('shake');
-    }
-    if (this.props.fade) {
-      classNames.push('fade');
-    }
+  render() {
     return (
       <div className='Box' style={this.getStyle()}>
         <div 
-          className={constructClass(classNames)} 
+          className={constructClass(this.props.classNames.toArray())} 
           style={this.getInnerStyle()}
           onClick={this.onClick}
-          ref={this.state.ref}
         />
       </div>
     );
   }
 }
 
-export const selectBox = (state) => ({
+export const select = (state, ownProps) => ({
   padding: state.elements.padding,
-  shake: state.elements.shake,
-  fade: state.elements.fade
+  classNames: state.elements.boxClasses[ownProps.row][ownProps.col]
 });
 
-export default Box;
+export default connect(select)(Box);

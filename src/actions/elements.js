@@ -1,7 +1,11 @@
+import { Set } from 'immutable';
+
 import { 
   SET_GRID_PADDING,
-  TOGGLE_COLOR,
   REGISTER_BOXES,
+  ADD_BOX_CLASS,
+  REMOVE_BOX_CLASS,
+  TOGGLE_BOX_CLASS,
   SHAKE_BOXES,
   FADE_BOXES,
   TRANSITION_TO_SIMON
@@ -15,12 +19,21 @@ export function setGridPadding(padding) {
   return { type: SET_GRID_PADDING, padding };
 } 
 
-export function toggleColor(color) {
-  return { type: TOGGLE_COLOR, color };
+export function registerBoxes(boxes) {
+  const boxClasses = boxes.map(row => row.map(box => new Set()));
+  return { type: REGISTER_BOXES, boxes, boxClasses };
 }
 
-export function registerBoxes(boxes) {
-  return { type: REGISTER_BOXES, boxes };
+export function addBoxClass(row, col, name) {
+  return { type: ADD_BOX_CLASS, row, col, name }
+}
+
+export function removeBoxClass(row, col, name) {
+  return { type: REMOVE_BOX_CLASS, row, col, name }
+}
+
+export function toggleBoxClass(row, col, name) {
+  return { type: TOGGLE_BOX_CLASS, row, col, name }
 }
 
 function createAnimation(type, property, timeoutStart, timeoutStop) {

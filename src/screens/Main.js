@@ -10,7 +10,7 @@ import {
   transitionToSimon 
 } from '../actions/elements';
 
-import MainBox from '../components/MainBox';
+import Box from '../components/Box';
 import Grid from '../components/Grid';
 
 
@@ -18,8 +18,8 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(setGridPadding(this.getPadding()));
-    this.boxes = [Object.keys(this.props.colors).map((color, index) => (
-      <MainBox 
+    this.boxes = [this.props.colors.map((color, index) => (
+      <Box 
         key={index} 
         color={color}
         side={this.props.side} 
@@ -33,7 +33,7 @@ class Main extends Component {
   }
 
   getPadding() {
-    const grid_width = this.props.side * Object.keys(this.props.colors).length;
+    const grid_width = this.props.side * this.props.colors.length;
     const grid_height = this.props.side;
     return {
       top: (this.props.height - grid_height) / 2,
@@ -42,17 +42,17 @@ class Main extends Component {
   }
 
   partialOnClick(event) {
-    this.props.dispatch(toggleColor(this.props.color));
+    this.toggleClass('selected');
   }
 
   mainClick(event) {
-    const selected = [];
-    for (let color in this.props.colors) {
-      if (this.props.colors[color]) {
-        selected.push(color);
+    let selectedCount = 0;
+    for (let classSet of this.props.boxClasses[0]) {
+      if (classSet.has('selected')) {
+        selectedCount += 1;
       }
     }
-    if (selected.length > 2) {
+    if (selectedCount > 2) {
       this.props.dispatch(transitionToSimon());
     } else {
       this.props.dispatch(shakeBoxes());
@@ -73,9 +73,9 @@ class Main extends Component {
 
 const select = (state) => {
   const { width, height } = state.app;
-  const { colors, boxes } = state.elements;
-  const side = width / (Object.keys(colors).length + 6);
-  return { width, height, colors, boxes, side };
+  const { colors, boxClasses } = state.elements;
+  const side = width / (colors.length + 6);
+  return { width, height, colors, boxClasses, side };
 };
 
 export default connect(select)(Main);
