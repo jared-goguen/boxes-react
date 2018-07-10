@@ -6,8 +6,8 @@ import {
   setGridPadding, 
   toggleColor, 
   registerBoxes, 
-  shakeBoxes,
-  transitionToSimon 
+  shakeUnselected,
+  unloadMain 
 } from '../actions/elements';
 
 import Box from '../components/Box';
@@ -53,9 +53,9 @@ class Main extends Component {
       }
     }
     if (selectedCount > 2) {
-      this.props.dispatch(transitionToSimon());
+      this.props.dispatch(unloadMain);
     } else {
-      this.props.dispatch(shakeBoxes());
+      this.props.dispatch(shakeUnselected);
     }
   }
 

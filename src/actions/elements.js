@@ -6,9 +6,9 @@ import {
   ADD_BOX_CLASS,
   REMOVE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
-  SHAKE_BOXES,
-  FADE_BOXES,
-  TRANSITION_TO_SIMON
+  ADD_ALL_CLASS,
+  REMOVE_ALL_CLASS,
+  TOGGLE_ALL_CLASS
 } from '../actions';
 
 import { generateActionCreator } from '../ActionQueue';
@@ -25,42 +25,69 @@ export function registerBoxes(boxes) {
 }
 
 export function addBoxClass(row, col, name) {
-  return { type: ADD_BOX_CLASS, row, col, name }
+  return { type: ADD_BOX_CLASS, row, col, name };
 }
 
 export function removeBoxClass(row, col, name) {
-  return { type: REMOVE_BOX_CLASS, row, col, name }
+  return { type: REMOVE_BOX_CLASS, row, col, name };
 }
 
 export function toggleBoxClass(row, col, name) {
-  return { type: TOGGLE_BOX_CLASS, row, col, name }
+  return { type: TOGGLE_BOX_CLASS, row, col, name };
 }
 
-function createAnimation(type, property, timeoutStart, timeoutStop) {
-  return () => {
-    return (dispatch) => {
-      const actionStart = { type, [property]: true };
-      enqueueAction(dispatch, actionStart, timeoutStart);
-      if (timeoutStop !== undefined) {
-        const actionStop = { type, [property]: false };
-        enqueueAction(dispatch, actionStop, timeoutStop);
-      }
+export function addAllClass(name, condition) {
+  return { type: ADD_ALL_CLASS, name, condition };
+}
+
+export function removeAllClass(name, condition) {
+  return { type: REMOVE_ALL_CLASS, name, condition };
+}
+
+export function toggleAllClass(name, condition) {
+  return { type: TOGGLE_ALL_CLASS, name, condition };
+}
+
+function createAnimation(actionStart, timeoutStart, actionStop, timeoutStop) {
+  return (dispatch) => {
+    enqueueAction(dispatch, actionStart, timeoutStart);
+    if (actionStop !== undefined && timeoutStop !== undefined) {
+      enqueueAction(dispatch, actionStop, timeoutStop);
     }
   }
 }
 
-export const shakeBoxes = createAnimation(SHAKE_BOXES, 'shake', 1000, 100);
+const selected = (row, col, classNames) => {
+  return classNames.has('selected');
+};
 
-export const fadeBoxes = createAnimation(FADE_BOXES, 'fade', 1000);
+const unselected = (row, col, classNames) => {
+  return !classNames.has('selected');
+};
 
-const unselectedFade = shakeBoxes;
-const selectedZoom = shakeBoxes;
-const loadSimon = shakeBoxes;
+const startShakeUnselected = addAllClass('shake', unselected);
+const stopShakeUnselected = removeAllClass('shake', unselected);
+export const shakeUnselected = createAnimation(
+  startShakeUnselected, 1000, 
+  stopShakeUnselected, 100
+);
 
-export function transitionToSimon() {
-    return (dispatch) => {
-      unselectedFade()(dispatch);
-      selectedZoom()(dispatch);
-      loadSimon()(dispatch);
-    }
+const startFadeUnselected = addAllClass('fade', unselected);
+export const fadeUnselected = createAnimation(
+  startFadeUnselected, 250
+);
+
+const startUnfadeUnselected = removeAllClass('fade', unselected);
+export const unfadeUnselected = createAnimation(
+  startUnfadeUnselected, 250
+);
+
+const startZoomRightSelected = addAllClass('zoom-right', selected);
+export const zoomRightSelected = createAnimation(
+  startZoomRightSelected, 1000
+);
+
+export function unloadMain(dispatch) {
+  fadeUnselected(dispatch);
+  zoomRightSelected(dispatch);
 }

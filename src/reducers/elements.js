@@ -6,8 +6,9 @@ import {
   ADD_BOX_CLASS,
   REMOVE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
-  SHAKE_BOXES,
-  FADE_BOXES
+  ADD_ALL_CLASS,
+  REMOVE_ALL_CLASS,
+  TOGGLE_ALL_CLASS
 } from '../actions';
 
 import { 
@@ -26,7 +27,6 @@ const allColors = [
   '#2c9fa3',
   '#913f92',
 ];
-
 
 const initialState = {
   boxes: [[]],
@@ -71,8 +71,46 @@ const handlers = {
     }
     return { boxClasses }
   },
-  [SHAKE_BOXES]: forwardAction,
-  [FADE_BOXES]: forwardAction
+  [ADD_ALL_CLASS]: (state, action) => {
+    const { name, condition } = action;
+    let boxClasses = state.boxClasses.map((rowClasses, row) => {
+      return rowClasses.map((classNames, col) => {
+        if (typeof condition !== 'function' || condition(row, col, classNames)) {
+          classNames = classNames.add(name);
+        }
+        return classNames;
+      });
+    });
+    return { boxClasses };
+  },
+  [REMOVE_ALL_CLASS]: (state, action) => {
+    const { name, condition } = action;
+    let boxClasses = state.boxClasses.map((rowClasses, row) => {
+      return rowClasses.map((classNames, col) => {
+        if (typeof condition !== 'function' || condition(row, col, classNames)) {
+          classNames = classNames.delete(name);
+        }
+        return classNames;
+      });
+    });
+    return { boxClasses };
+  },
+  [TOGGLE_ALL_CLASS]: (state, action) => {
+    const { name, condition } = action;
+    let boxClasses = state.boxClasses.map((rowClasses, row) => {
+      return rowClasses.map((classNames, col) => {
+        if (typeof condition !== 'function' || condition(row, col, classNames)) {
+          if (!classNames.has(name)) {
+            classNames = classNames.add(name);
+          } else {
+            classNames = classNames.delete(name);
+          }
+        }
+        return classNames;
+      });
+    });
+    return { boxClasses };
+  }
 };
 
 export default createReducer(initialState, handlers);
