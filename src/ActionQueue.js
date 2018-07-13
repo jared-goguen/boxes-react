@@ -61,6 +61,7 @@ export function generateActionCreator(reducerName) {
 
 export function aque({ dispatch, getState }) {
   return next => action => {
+    console.log(getState());
     console.log(`Handling ${action.type || action}...`);
 
     if (typeof action == 'function') {

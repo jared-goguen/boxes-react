@@ -4,11 +4,12 @@ import {
   SET_GRID_PADDING,
   REGISTER_BOXES,
   ADD_BOX_CLASS,
-  REMOVE_BOX_CLASS,
+  DELETE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
   ADD_ALL_CLASS,
-  REMOVE_ALL_CLASS,
-  TOGGLE_ALL_CLASS
+  DELETE_ALL_CLASS,
+  TOGGLE_ALL_CLASS,
+  SET_SELECTED
 } from '../actions';
 
 import { generateActionCreator } from '../ActionQueue';
@@ -28,8 +29,8 @@ export function addBoxClass(row, col, name) {
   return { type: ADD_BOX_CLASS, row, col, name };
 }
 
-export function removeBoxClass(row, col, name) {
-  return { type: REMOVE_BOX_CLASS, row, col, name };
+export function deleteBoxClass(row, col, name) {
+  return { type: DELETE_BOX_CLASS, row, col, name };
 }
 
 export function toggleBoxClass(row, col, name) {
@@ -40,8 +41,8 @@ export function addAllClass(name, condition) {
   return { type: ADD_ALL_CLASS, name, condition };
 }
 
-export function removeAllClass(name, condition) {
-  return { type: REMOVE_ALL_CLASS, name, condition };
+export function deleteAllClass(name, condition) {
+  return { type: DELETE_ALL_CLASS, name, condition };
 }
 
 export function toggleAllClass(name, condition) {
@@ -66,7 +67,7 @@ const unselected = (row, col, classNames) => {
 };
 
 const startShakeUnselected = addAllClass('shake', unselected);
-const stopShakeUnselected = removeAllClass('shake', unselected);
+const stopShakeUnselected = deleteAllClass('shake', unselected);
 export const shakeUnselected = createAnimation(
   startShakeUnselected, 1000, 
   stopShakeUnselected, 100
@@ -77,7 +78,7 @@ export const fadeUnselected = createAnimation(
   startFadeUnselected, 250
 );
 
-const startUnfadeUnselected = removeAllClass('fade', unselected);
+const startUnfadeUnselected = deleteAllClass('fade', unselected);
 export const unfadeUnselected = createAnimation(
   startUnfadeUnselected, 250
 );
@@ -88,6 +89,7 @@ export const zoomRightSelected = createAnimation(
 );
 
 export function unloadMain(dispatch) {
+  dispatch({ type: SET_SELECTED })
   fadeUnselected(dispatch);
   zoomRightSelected(dispatch);
 }

@@ -1,14 +1,15 @@
-import { Set } from 'immutable';
+import { Grid, Box } from './grid';
 
 import {
   SET_GRID_PADDING,
   REGISTER_BOXES,
   ADD_BOX_CLASS,
-  REMOVE_BOX_CLASS,
+  DELETE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
   ADD_ALL_CLASS,
-  REMOVE_ALL_CLASS,
-  TOGGLE_ALL_CLASS
+  DELETE_ALL_CLASS,
+  TOGGLE_ALL_CLASS,
+  SET_SELECTED
 } from '../actions';
 
 import { 
@@ -29,87 +30,63 @@ const allColors = [
 ];
 
 const initialState = {
-  boxes: [[]],
-  boxClasses: [[[new Set()]]],
+  grid: new Grid(),
   padding: {
     left: 0,
     top: 0
   },
   actions: new ActionQueue(),
-  colors: allColors
+  colors: allColors,
+  selected: []
 };
 
 const handlers = {
   [SET_GRID_PADDING]: forwardAction,
-  [REGISTER_BOXES]: forwardAction,
+  [REGISTER_BOXES]: (state, action) => {
+    const grid = state.grid.setBoxes(action.boxes);
+    return { grid };
+  },
   [ADD_BOX_CLASS]: (state, action) => {
     const { row, col, name } = action;
-    const classNames = state.boxClasses[row][col];
-    if (!classNames.has(name)) {
-      const boxClasses = state.boxClasses.map(row => row.slice());
-      boxClasses[row][col] = classNames.add(name)
-      return { boxClasses }
-    }
+    const grid = state.grid.addClass(row, col, name);
+    return { grid };
   },
-  [REMOVE_BOX_CLASS]: (state, action) => {
+  [DELETE_BOX_CLASS]: (state, action) => {
     const { row, col, name } = action;
-    const classNames = state.boxClasses[row][col];
-    if (classNames.has(name)) {
-      const boxClasses = state.boxClasses.map(row => row.slice());
-      boxClasses[row][col] = classNames.delete(name)
-      return { boxClasses }
-    }
+    const grid = state.grid.deleteClass(row, col, name);
+    return { grid };
   },
   [TOGGLE_BOX_CLASS]: (state, action) => {
     const { row, col, name } = action;
-    const classNames = state.boxClasses[row][col];
-    const boxClasses = state.boxClasses.map(row => row.slice());
-    if (classNames.has(name)) {
-      boxClasses[row][col] = classNames.delete(name)
-    } else {
-      boxClasses[row][col] = classNames.add(name)
-    }
-    return { boxClasses }
+    const grid = state.grid.toggleClass(row, col, name);
+    console.log(grid);
+    return { grid };
   },
   [ADD_ALL_CLASS]: (state, action) => {
     const { name, condition } = action;
-    let boxClasses = state.boxClasses.map((rowClasses, row) => {
-      return rowClasses.map((classNames, col) => {
-        if (typeof condition !== 'function' || condition(row, col, classNames)) {
-          classNames = classNames.add(name);
-        }
-        return classNames;
-      });
-    });
-    return { boxClasses };
+    const grid = state.grid.addAllClass(name, condition);
+    return { grid };
   },
-  [REMOVE_ALL_CLASS]: (state, action) => {
+  [DELETE_ALL_CLASS]: (state, action) => {
     const { name, condition } = action;
-    let boxClasses = state.boxClasses.map((rowClasses, row) => {
-      return rowClasses.map((classNames, col) => {
-        if (typeof condition !== 'function' || condition(row, col, classNames)) {
-          classNames = classNames.delete(name);
-        }
-        return classNames;
-      });
-    });
-    return { boxClasses };
+    const grid = state.grid.deleteAllClass(name, condition);
+    return { grid };
   },
   [TOGGLE_ALL_CLASS]: (state, action) => {
     const { name, condition } = action;
-    let boxClasses = state.boxClasses.map((rowClasses, row) => {
-      return rowClasses.map((classNames, col) => {
-        if (typeof condition !== 'function' || condition(row, col, classNames)) {
-          if (!classNames.has(name)) {
-            classNames = classNames.add(name);
-          } else {
-            classNames = classNames.delete(name);
-          }
+    const grid = state.grid.toggleAllClass(name, condition);
+    return { grid };
+  },
+  [SET_SELECTED]: (state, action) => {
+    const selected = [];
+    for (let rowBoxes of state.boxes) {
+      for (let box of rowBoxes) {
+        if (box.hasClass('selected')) {
+          selected.push(box.color);
         }
-        return classNames;
-      });
-    });
-    return { boxClasses };
+      }
+    }
+    return { selected };
   }
 };
 

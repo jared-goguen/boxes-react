@@ -18,16 +18,13 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(setGridPadding(this.getPadding()));
-    this.boxes = [this.props.colors.map((color, index) => (
-      <Box 
-        key={index} 
-        color={color}
-        side={this.props.side} 
-        row={0} 
-        col={index} 
-        partialOnClick={this.partialOnClick}
-      />
-    ))];
+    this.boxes = [this.props.colors.map((color, index) => ({
+      row: 0,
+      col: index,
+      color: color,
+      side: this.props.side,
+      partialOnClick: this.partialOnClick
+    }))];
     this.props.dispatch(registerBoxes(this.boxes));
     this.mainClick = this.mainClick.bind(this);
   }
@@ -46,23 +43,13 @@ class Main extends Component {
   }
 
   mainClick(event) {
-    let selectedCount = 0;
-    for (let classSet of this.props.boxClasses[0]) {
-      if (classSet.has('selected')) {
-        selectedCount += 1;
-      }
-    }
-    if (selectedCount > 2) {
-      this.props.dispatch(unloadMain);
-    } else {
-      this.props.dispatch(shakeUnselected);
-    }
+
   }
 
   render() {
     return (
       <div className='Main'>
-        <Grid rows={1} elements={this.boxes} />
+        <Grid />
         <div className='MainButtonWrapper'>
           <button className='MainButton' onClick={this.mainClick} />
         </div>
@@ -73,9 +60,9 @@ class Main extends Component {
 
 const select = (state) => {
   const { width, height } = state.app;
-  const { colors, boxClasses } = state.elements;
+  const { colors } = state.elements;
   const side = width / (colors.length + 6);
-  return { width, height, colors, boxClasses, side };
+  return { width, height, colors, side };
 };
 
 export default connect(select)(Main);

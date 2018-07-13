@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import constructClass from 'classnames';
 
-import { addBoxClass, removeBoxClass, toggleBoxClass } from '../actions/elements';
+import { addBoxClass, deleteBoxClass, toggleBoxClass } from '../actions/elements';
 
 
 class Box extends Component {
@@ -19,9 +19,9 @@ class Box extends Component {
     }
   }
 
-  removeClass(name, condition) {
+  deleteClass(name, condition) {
     if (typeof condition !== 'function' || condition(this.props)) {
-      this.props.dispatch(removeBoxClass(this.props.row, this.props.col, name));
+      this.props.dispatch(deleteBoxClass(this.props.row, this.props.col, name));
     }
   }
 
@@ -59,9 +59,15 @@ class Box extends Component {
   }
 }
 
-export const select = (state, ownProps) => ({
-  padding: state.elements.padding,
-  classNames: state.elements.boxClasses[ownProps.row][ownProps.col]
-});
+const propNames = ['row', 'col', 'side', 'color', 'classNames', 'partialOnClick']
+export const select = (state, ownProps) => {
+  const padding = state.elements.padding;
+  const box = state.elements.grid.getBox(ownProps.row, ownProps.col);
+  const info = {};
+  for (name of propNames) {
+    info[name] = box[name];
+  }
+  return { padding, ...info }
+};
 
 export default connect(select)(Box);

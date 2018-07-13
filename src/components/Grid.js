@@ -3,17 +3,27 @@ import '../styles/Grid.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Box from './Box';
+
 class Grid extends Component {
-  getStyle = () => {
-    return this.props.padding;
-  }
 
   render() {
+    console.log(this.props);
+    const { boxes } = this.props.grid;
+    const rows = [];
+    boxes.forEach((rowElements, row) => {
+      let newRow = [];
+      rows.push(newRow);
+      rowElements.forEach((boxInfo, col) => {
+        newRow.push(<Box key={col} row={row} col={col} />)
+      });
+    });
+
     return (
-      <div className='Grid' style={this.getStyle()}>
-        {this.props.elements.map((row_elements, row) => (
+      <div className='Grid'>
+        {rows.map((rowElements, row) => (
           <div key={row}>
-            {row_elements}
+            {rowElements}
           </div>
         ))}
       </div>
@@ -22,7 +32,7 @@ class Grid extends Component {
 }
 
 const select = (state) => ({
-
+  grid: state.elements.grid
 });
 
 export default connect(select)(Grid);
