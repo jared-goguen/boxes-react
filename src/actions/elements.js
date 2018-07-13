@@ -49,6 +49,10 @@ export function toggleAllClass(name, condition) {
   return { type: TOGGLE_ALL_CLASS, name, condition };
 }
 
+export function setSelected() {
+  return { type: SET_SELECTED };
+}
+
 function createAnimation(actionStart, timeoutStart, actionStop, timeoutStop) {
   return (dispatch) => {
     enqueueAction(dispatch, actionStart, timeoutStart);
@@ -58,12 +62,12 @@ function createAnimation(actionStart, timeoutStart, actionStop, timeoutStop) {
   }
 }
 
-const selected = (row, col, classNames) => {
-  return classNames.has('selected');
+const selected = (box) => {
+  return box.classNames.has('selected');
 };
 
-const unselected = (row, col, classNames) => {
-  return !classNames.has('selected');
+const unselected = (box) => {
+  return !box.classNames.has('selected');
 };
 
 const startShakeUnselected = addAllClass('shake', unselected);

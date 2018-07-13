@@ -43,7 +43,19 @@ class Main extends Component {
   }
 
   mainClick(event) {
-
+    let selected = 0;
+    for (let rowBoxes of this.props.grid.boxes) {
+      for (let box of rowBoxes) {
+        if (box.hasClass('selected')) {
+          selected += 1;
+        }
+      }
+    }
+    if (selected > 2) {
+      this.props.dispatch(unloadMain);
+    } else {
+      this.props.dispatch(shakeUnselected);
+    }
   }
 
   render() {
@@ -60,9 +72,9 @@ class Main extends Component {
 
 const select = (state) => {
   const { width, height } = state.app;
-  const { colors } = state.elements;
+  const { colors, grid } = state.elements;
   const side = width / (colors.length + 6);
-  return { width, height, colors, side };
+  return { width, height, colors, grid, side };
 };
 
 export default connect(select)(Main);

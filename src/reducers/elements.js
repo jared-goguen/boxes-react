@@ -79,7 +79,7 @@ const handlers = {
   },
   [SET_SELECTED]: (state, action) => {
     const selected = [];
-    for (let rowBoxes of state.boxes) {
+    for (let rowBoxes of state.grid.boxes) {
       for (let box of rowBoxes) {
         if (box.hasClass('selected')) {
           selected.push(box.color);
