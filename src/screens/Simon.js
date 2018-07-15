@@ -8,7 +8,9 @@ import {
   setGridPadding, 
   registerBoxes,
   addRandomClass,
-  deleteRandomClass
+  deleteRandomClass,
+  shuffleGrid,
+  pause
 } from '../actions/elements';
 
 import Box from '../components/Box';
@@ -40,8 +42,10 @@ class Simon extends Component {
   }
 
   componentDidMount() {
-    const timeoutLength = 500 / this.props.selected.length ** 2;
+    const timeoutLength = 250 / this.props.selected.length ** 2;
     this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
+    this.props.dispatch(shuffleGrid(500));
+    this.props.dispatch(pause(1000));
     this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
   }
 

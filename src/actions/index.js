@@ -12,3 +12,5 @@ export const ADD_ALL_CLASS = 'ADD_ALL_CLASS';
 export const DELETE_ALL_CLASS = 'DELETE_ALL_CLASS';
 export const TOGGLE_ALL_CLASS = 'TOGGLE_ALL_CLASS';
 export const SET_SELECTED = 'SET_SELECTED';
+export const SHUFFLE_GRID = 'SHUFFLE_GRID';
+export const BLANK_ACTION = 'BLANK_ACTION';

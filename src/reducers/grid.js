@@ -1,5 +1,6 @@
 import Immutable, { Record, Set, List } from 'immutable';
 
+import { shuffle } from '../actions/utils';
 
 const baseBox = Record({
   classNames: new Set(),
@@ -11,7 +12,6 @@ const baseBox = Record({
 }, 'Box');
 
 export class Box extends baseBox {
-
   hasClass(name) {
     return this.classNames.has(name);
   }
@@ -32,6 +32,10 @@ export class Box extends baseBox {
     } else {
       return this.addClass(name);
     }
+  }
+
+  move(row, col) {
+    return this.merge({ row, col });
   }
 }
 
@@ -105,5 +109,34 @@ export class Grid extends baseGrid {
 
   toggleAllClass(name, condition) {
     return this.iterate(this.boxes, (box) => box.toggleClass(name), condition);
+  }
+
+  shuffle() {
+    let flatBoxes = [].concat.apply([], this.boxes.toJS());
+    shuffle(flatBoxes);
+    let shuffled = [];
+    for (let rowElement of this.boxes) {
+      let newRow = [];
+      shuffled.push(newRow);
+      for (let box of rowElement) {
+        newRow.push(flatBoxes.pop());
+      }
+    }
+    console.log(shuffled);
+    let boxes = [];
+    for (let row = 0; row < shuffled.length; row++) {
+      let newRow = [];
+      boxes.push(newRow);
+      let rowElement = shuffled[row];
+      for (let col = 0; col < rowElement.length; col++) {
+        let box = this.getBox(row, col);
+        let updatedBox = shuffled[row][col];
+        box = box.move(updatedBox.row, updatedBox.col);
+        newRow.push(box);
+      }
+    }
+    console.log(boxes);
+    boxes = Immutable.fromJS(boxes);
+    return this.merge({ boxes });
   }
 }

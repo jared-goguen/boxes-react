@@ -9,7 +9,8 @@ import {
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
-  SET_SELECTED
+  SET_SELECTED,
+  SHUFFLE_GRID,
 } from '../actions';
 
 import { 
@@ -86,6 +87,10 @@ const handlers = {
       }
     }
     return { selected };
+  },
+  [SHUFFLE_GRID]: (state, action) => {
+    let grid = state.grid.shuffle();
+    return { grid };
   }
 };
 

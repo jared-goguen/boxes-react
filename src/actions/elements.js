@@ -9,12 +9,14 @@ import {
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
-  SET_SELECTED
+  SET_SELECTED,
+  SHUFFLE_GRID,
+  BLANK_ACTION
 } from '../actions';
 
 import {
   shuffle
-} from './util';
+} from './utils';
 
 import { generateActionCreator } from '../ActionQueue';
 
@@ -116,6 +118,18 @@ export function deleteRandomClass(boxes, name, timeout) {
 
 export function toggleRandomClass(boxes, name, timeout) {
   return randomClassChange(toggleBoxClass, boxes, name, timeout);
+}
+
+export function shuffleGrid(timeout) {
+  return (dispatch) => {
+    enqueueAction(dispatch, {type: SHUFFLE_GRID }, timeout);
+  };
+}
+
+export function pause(timeout) {
+  return (dispatch) => {
+    enqueueAction(dispatch, { type: BLANK_ACTION }, timeout);
+  }
 }
 
 export function unloadMain(dispatch) {
