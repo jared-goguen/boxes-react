@@ -21,7 +21,8 @@ class App extends Component {
   }
 
   render() {
-    let contents = this.props.instantiated ? <Main /> : null;
+    let contents = this.props.instantiated ? 
+      this.props.screens[this.props.index] : null;
 
     return (
       <div className='App' ref={this.ref}>
@@ -32,7 +33,9 @@ class App extends Component {
 }
 
 const select = (state) => ({
-  instantiated: state.app.instantiated
+  instantiated: state.app.instantiated,
+  screens: state.app.screens,
+  index: state.app.index
 });
 
 export default hot(module)(connect(select)(App));

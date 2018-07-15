@@ -10,6 +10,10 @@ import {
   unloadMain 
 } from '../actions/elements';
 
+import {
+  loadNextScreen
+} from '../actions/app';
+
 import Box from '../components/Box';
 import Grid from '../components/Grid';
 
@@ -27,6 +31,7 @@ class Main extends Component {
     }))];
     this.props.dispatch(registerBoxes(this.boxes));
     this.mainClick = this.mainClick.bind(this);
+    this.mainButton = React.createRef();
   }
 
   getPadding() {
@@ -52,7 +57,9 @@ class Main extends Component {
       }
     }
     if (selected > 2) {
+      this.mainButton.current.classList.add('MainFade')
       this.props.dispatch(unloadMain);
+      this.props.dispatch(loadNextScreen);
     } else {
       this.props.dispatch(shakeUnselected);
     }
@@ -62,7 +69,7 @@ class Main extends Component {
     return (
       <div className='Main'>
         <Grid />
-        <div className='MainButtonWrapper'>
+        <div className='MainButtonWrapper' ref={this.mainButton}>
           <button className='MainButton' onClick={this.mainClick} />
         </div>
       </div>

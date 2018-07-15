@@ -12,6 +12,10 @@ import {
   SET_SELECTED
 } from '../actions';
 
+import {
+  shuffle
+} from './util';
+
 import { generateActionCreator } from '../ActionQueue';
 
 const enqueueAction = generateActionCreator('elements');
@@ -21,8 +25,7 @@ export function setGridPadding(padding) {
 } 
 
 export function registerBoxes(boxes) {
-  const boxClasses = boxes.map(row => row.map(box => new Set()));
-  return { type: REGISTER_BOXES, boxes, boxClasses };
+  return { type: REGISTER_BOXES, boxes };
 }
 
 export function addBoxClass(row, col, name) {
@@ -91,6 +94,29 @@ const startZoomRightSelected = addAllClass('zoom-right', selected);
 export const zoomRightSelected = createAnimation(
   startZoomRightSelected, 1000
 );
+
+function randomClassChange(func, boxes, name, timeout) {
+  return (dispatch) => {
+    let flatBoxes = [].concat.apply([], boxes);
+    shuffle(flatBoxes);
+    for (let box of flatBoxes) {
+      let action = func(box.row, box.col, name);
+      enqueueAction(dispatch, action, timeout)
+    }
+  }
+}
+
+export function addRandomClass(boxes, name, timeout) {
+  return randomClassChange(addBoxClass, boxes, name, timeout);
+}
+
+export function deleteRandomClass(boxes, name, timeout) {
+  return randomClassChange(deleteBoxClass, boxes, name, timeout);
+}
+
+export function toggleRandomClass(boxes, name, timeout) {
+  return randomClassChange(toggleBoxClass, boxes, name, timeout);
+}
 
 export function unloadMain(dispatch) {
   dispatch({ type: SET_SELECTED })

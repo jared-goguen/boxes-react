@@ -17,3 +17,8 @@
   height: 12%;
   width: 12%
 }
+
+.MainFade {
+  opacity: 0;
+  transition: all 0.25s linear;
+}

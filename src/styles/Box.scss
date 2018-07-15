@@ -42,5 +42,9 @@
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
   }
+
+  >div.hidden {
+    background: #444444 !important;
+  }
 }
 

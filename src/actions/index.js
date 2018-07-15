@@ -1,5 +1,6 @@
 // app
 export const SET_WINDOW_SIZE = 'SET_WINDOW_SIZE';
+export const LOAD_NEXT_SCREEN = 'LOAD_NEXT_SCREEN';
 
 // elements
 export const SET_GRID_PADDING = 'SET_GRID_PADDING';
