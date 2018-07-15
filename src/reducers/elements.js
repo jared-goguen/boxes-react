@@ -59,7 +59,6 @@ const handlers = {
   [TOGGLE_BOX_CLASS]: (state, action) => {
     const { row, col, name } = action;
     const grid = state.grid.toggleClass(row, col, name);
-    console.log(grid);
     return { grid };
   },
   [ADD_ALL_CLASS]: (state, action) => {

@@ -43,12 +43,10 @@ const baseGrid = Record({
 export class Grid extends baseGrid {
   iterate(elements, func, condition) {
     let boxes = [];
-    for (let row = 0; row < elements.length; row++) {
-      const rowElement = elements[row];
-      const newRow = [];
+    for (let rowElement of elements) {
+      let newRow = [];
       boxes.push(newRow);
-      for (let col = 0; col < rowElement.length; col++) {
-        let element = rowElement[col];
+      for (let element of rowElement) {
         if (condition === undefined || condition(element)) {
           element = func(element);
         }
