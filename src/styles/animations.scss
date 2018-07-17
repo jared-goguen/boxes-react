@@ -39,19 +39,15 @@
 
 @keyframes go-right {
   0% {
-    left: 0;
+    top: 0;
     transform: rotate(0deg);
   }
   70% {
-    left: -10vw;
+    top: -50vh;
     transform: rotate(180deg);
-    width: 90%;
-    height: 90%;
   }
   100% {
-    left: 100vw;
+    top: 100vh;
     transform: rotate(360deg);
-    width: 50%;
-    height: 50%;
   }
 }

@@ -5,8 +5,6 @@ import { hot } from 'react-hot-loader'
 import { connect } from 'react-redux';
 import { setWindowSize } from './actions/app';
 
-import Main from './screens/Main'
-
 
 class App extends Component {
   constructor(props) {

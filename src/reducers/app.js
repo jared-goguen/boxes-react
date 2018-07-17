@@ -7,6 +7,7 @@ import {
 
 import Main from '../screens/Main';
 import Simon from '../screens/Simon';
+import Mixed from '../screens/Mixed';
 
 import { 
   createReducer,
@@ -18,7 +19,7 @@ const initialState = {
   height: undefined,
   instantiated: false,
   index: 0,
-  screens: [<Main />, <Simon />]
+  screens: [<Main />, <Mixed />, <Simon />]
 };
 
 const handlers = {
