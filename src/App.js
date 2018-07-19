@@ -20,7 +20,7 @@ class App extends Component {
 
   render() {
     let contents = this.props.instantiated ? 
-      this.props.screens[this.props.index] : null;
+      this.props.levels[this.props.index] : null;
 
     return (
       <div className='App' ref={this.ref}>
@@ -32,7 +32,7 @@ class App extends Component {
 
 const select = (state) => ({
   instantiated: state.app.instantiated,
-  screens: state.app.screens,
+  levels: state.app.levels,
   index: state.app.index
 });
 

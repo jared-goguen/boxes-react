@@ -10,24 +10,30 @@ import { addBoxClass, deleteBoxClass, toggleBoxClass } from '../actions/elements
 class Box extends Component {
   constructor(props) {
     super(props);
-    this.onClick = this.props.partialOnClick.bind(this);
+    this.onBoxClick = this.props.box.onBoxClick.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    let { box, grid, dispatch, onBoxClick } = this.props;
+    this.onBoxClick(box, grid, dispatch);
   }
 
   addClass(name, condition) {
-    if (typeof condition !== 'function' || condition(this.props)) {
-      this.props.dispatch(addBoxClass(this.props.row, this.props.col, name));
+    if (typeof condition !== 'function' || condition(this.props.box)) {
+      this.props.dispatch(addBoxClass(this.props.box.row, this.props.box.col, name));
     }
   }
 
   deleteClass(name, condition) {
     if (typeof condition !== 'function' || condition(this.props)) {
-      this.props.dispatch(deleteBoxClass(this.props.row, this.props.col, name));
+      this.props.dispatch(deleteBoxClass(this.props.box.row, this.props.box.col, name));
     }
   }
 
   toggleClass(name, condition) {
     if (typeof condition !== 'function' || condition(this.props)) {
-      this.props.dispatch(toggleBoxClass(this.props.row, this.props.col, name));
+      this.props.dispatch(toggleBoxClass(this.props.box.row, this.props.box.col, name));
     }
   }
 
@@ -35,14 +41,14 @@ class Box extends Component {
     return {
       width: this.props.side,
       height:this.props.side,
-      top: this.props.padding.top + this.props.row * this.props.side,
-      left: this.props.padding.left + this.props.col * this.props.side,
+      top: this.props.padding.top + this.props.box.row * this.props.side,
+      left: this.props.padding.left + this.props.box.col * this.props.side,
     }
   }
 
   getInnerStyle() {
     return {
-      background: this.props.color,
+      background: this.props.box.color,
     }
   }
 
@@ -50,7 +56,7 @@ class Box extends Component {
     return (
       <div className='Box' style={this.getStyle()}>
         <div 
-          className={constructClass(this.props.classNames.toArray())} 
+          className={constructClass(this.props.box.classNames.toArray())} 
           style={this.getInnerStyle()}
           onClick={this.onClick}
         />
@@ -59,15 +65,10 @@ class Box extends Component {
   }
 }
 
-const propNames = ['row', 'col', 'side', 'color', 'classNames', 'partialOnClick']
 export const select = (state, ownProps) => {
-  const padding = state.elements.padding;
-  const box = state.elements.grid.getBox(ownProps.row, ownProps.col);
-  const info = {};
-  for (name of propNames) {
-    info[name] = box[name];
-  }
-  return { padding, ...info }
+  const { padding, side, grid } = state.elements;
+  const box = state.elements.grid.getInGrid(ownProps.gridRow, ownProps.gridCol);
+  return { padding, side, grid, box }
 };
 
 export default connect(select)(Box);

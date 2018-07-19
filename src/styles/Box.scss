@@ -35,10 +35,10 @@
     }
   }
 
-  > div.zoom-right {
+  > div.zoom-up {
     position: absolute;
-    animation-name: go-right;
-    animation-duration: 1s;
+    animation-name: go-up;
+    animation-duration: 0.75s;
     animation-iteration-count: 1;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;

@@ -1,7 +1,7 @@
 import { Grid, Box } from './grid';
 
 import {
-  SET_GRID_PADDING,
+  SET_GRID_DIMENSIONS,
   REGISTER_BOXES,
   ADD_BOX_CLASS,
   DELETE_BOX_CLASS,
@@ -11,6 +11,7 @@ import {
   TOGGLE_ALL_CLASS,
   SET_SELECTED,
   SHUFFLE_GRID,
+  UPDATE_GRID
 } from '../actions';
 
 import { 
@@ -30,19 +31,31 @@ const allColors = [
   '#913f92',
 ];
 
-const initialState = {
+let initialState = {
   grid: new Grid(),
   padding: {
     left: 0,
     top: 0
   },
+  side: 0,
   actions: new ActionQueue(),
   colors: allColors,
   selected: []
 };
 
+const testState = {
+  selected: [
+    '#ffb914',
+    '#3be2a8',
+    '#2c9fa3',
+    '#913f92',
+  ]
+}
+
+initialState = Object.assign(initialState, testState);
+
 const handlers = {
-  [SET_GRID_PADDING]: forwardAction,
+  [SET_GRID_DIMENSIONS]: forwardAction,
   [REGISTER_BOXES]: (state, action) => {
     const grid = state.grid.setBoxes(action.boxes);
     return { grid };
@@ -91,7 +104,8 @@ const handlers = {
   [SHUFFLE_GRID]: (state, action) => {
     let grid = state.grid.shuffle();
     return { grid };
-  }
+  },
+  [UPDATE_GRID]: forwardAction
 };
 
 export default createReducer(initialState, handlers);

@@ -18,6 +18,7 @@ export class ActionQueue {
 
   _process(dispatch) {
     console.log(`Actions in queue: ${this.actions.length}`);
+    console.log(this.actions);
     const action = this.actions.shift();
 
     if (action === undefined) {
@@ -63,6 +64,7 @@ export function aque({ dispatch, getState }) {
   return next => action => {
     console.log(getState());
     console.log(`Handling ${action.type || action}...`);
+    console.log(action);
 
     if (typeof action == 'function') {
       action(dispatch);

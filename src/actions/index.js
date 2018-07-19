@@ -1,9 +1,9 @@
 // app
 export const SET_WINDOW_SIZE = 'SET_WINDOW_SIZE';
-export const LOAD_NEXT_SCREEN = 'LOAD_NEXT_SCREEN';
+export const LOAD_NEXT_LEVEL = 'LOAD_NEXT_LEVEL';
 
 // elements
-export const SET_GRID_PADDING = 'SET_GRID_PADDING';
+export const SET_GRID_DIMENSIONS = 'SET_GRID_DIMENSIONS';
 export const REGISTER_BOXES = 'REGISTER_BOXES';
 export const ADD_BOX_CLASS = 'ADD_BOX_CLASS';
 export const DELETE_BOX_CLASS = 'DELETE_BOX_CLASS';
@@ -14,3 +14,4 @@ export const TOGGLE_ALL_CLASS = 'TOGGLE_ALL_CLASS';
 export const SET_SELECTED = 'SET_SELECTED';
 export const SHUFFLE_GRID = 'SHUFFLE_GRID';
 export const BLANK_ACTION = 'BLANK_ACTION';
+export const UPDATE_GRID = 'UPDATE_GRID';

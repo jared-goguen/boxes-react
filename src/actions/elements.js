@@ -1,7 +1,7 @@
 import { Set } from 'immutable';
 
 import { 
-  SET_GRID_PADDING,
+  SET_GRID_DIMENSIONS,
   REGISTER_BOXES,
   ADD_BOX_CLASS,
   DELETE_BOX_CLASS,
@@ -11,19 +11,24 @@ import {
   TOGGLE_ALL_CLASS,
   SET_SELECTED,
   SHUFFLE_GRID,
-  BLANK_ACTION
+  BLANK_ACTION,
+  UPDATE_GRID
 } from '../actions';
 
 import {
   shuffle
 } from './utils';
 
+import {
+  loadNextLevel
+} from './app';
+
 import { generateActionCreator } from '../ActionQueue';
 
 const enqueueAction = generateActionCreator('elements');
 
-export function setGridPadding(padding) {
-  return { type: SET_GRID_PADDING, padding };
+export function setGridDimensions(dimensions) {
+  return { type: SET_GRID_DIMENSIONS, ...dimensions };
 } 
 
 export function registerBoxes(boxes) {
@@ -58,12 +63,14 @@ export function setSelected() {
   return { type: SET_SELECTED };
 }
 
-function createAnimation(actionStart, timeoutStart, actionStop, timeoutStop) {
-  return (dispatch) => {
-    enqueueAction(dispatch, actionStart, timeoutStart);
-    if (actionStop !== undefined && timeoutStop !== undefined) {
-      enqueueAction(dispatch, actionStop, timeoutStop);
-    }
+function createAnimation(actionStart, actionStop) {
+  return (timeoutStart, timeoutStop) => {
+    return (dispatch) => {
+      enqueueAction(dispatch, actionStart, timeoutStart);
+      if (actionStop !== undefined && timeoutStop !== undefined) {
+        enqueueAction(dispatch, actionStop, timeoutStop);
+      }
+    }  
   }
 }
 
@@ -77,25 +84,16 @@ const unselected = (box) => {
 
 const startShakeUnselected = addAllClass('shake', unselected);
 const stopShakeUnselected = deleteAllClass('shake', unselected);
-export const shakeUnselected = createAnimation(
-  startShakeUnselected, 1000, 
-  stopShakeUnselected, 100
-);
+export const shakeUnselected = createAnimation(startShakeUnselected, stopShakeUnselected);
 
 const startFadeUnselected = addAllClass('fade', unselected);
-export const fadeUnselected = createAnimation(
-  startFadeUnselected, 250
-);
+export const fadeUnselected = createAnimation(startFadeUnselected);
 
 const startUnfadeUnselected = deleteAllClass('fade', unselected);
-export const unfadeUnselected = createAnimation(
-  startUnfadeUnselected, 250
-);
+export const unfadeUnselected = createAnimation(startUnfadeUnselected);
 
-const startZoomRightSelected = addAllClass('zoom-right', selected);
-export const zoomRightSelected = createAnimation(
-  startZoomRightSelected, 1000
-);
+const startZoomUpSelected = addAllClass('zoom-up', selected);
+export const zoomUpSelected = createAnimation(startZoomUpSelected);
 
 function randomClassChange(func, boxes, name, timeout) {
   return (dispatch) => {
@@ -132,8 +130,15 @@ export function pause(timeout) {
   }
 }
 
-export function unloadMain(dispatch) {
-  dispatch({ type: SET_SELECTED })
-  fadeUnselected(dispatch);
-  zoomRightSelected(dispatch);
+export function transitionMain(timeoutFade, timeoutZoom) {
+  return (dispatch) => {
+    dispatch({ type: SET_SELECTED })
+    fadeUnselected(timeoutFade)(dispatch);
+    zoomUpSelected(timeoutZoom)(dispatch);
+    loadNextLevel(100)(dispatch);
+  }
+}
+
+export function updateGrid(grid) {
+  return { type: UPDATE_GRID, grid }
 }
