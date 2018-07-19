@@ -38,7 +38,6 @@ let initialState = {
     top: 0
   },
   side: 0,
-  actions: new ActionQueue(),
   colors: allColors,
   selected: []
 };

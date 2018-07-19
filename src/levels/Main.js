@@ -5,7 +5,7 @@ import { connectLevel, Level } from './Level';
 import {  
   toggleColor, 
   shakeUnselected,
-  transitionMain 
+  transitionMain
 } from '../actions/elements';
 
 import {

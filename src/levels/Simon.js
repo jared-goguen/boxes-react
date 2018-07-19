@@ -7,11 +7,21 @@ import { Set } from 'immutable';
 import { 
   deleteRandomClass,
   shuffleGrid,
-  updateGrid
+  updateGrid,
+  shakeUnselected,
+  unselectSelected,
+  hideSelected
 } from '../actions/elements';
 
 
 class Simon extends Level {
+  constructor(props) {
+    super(props);
+    this.state = {
+      processing: false
+    }
+  }
+
   generateBox(row, col) {
     return {
       row,
@@ -34,6 +44,41 @@ class Simon extends Level {
     this.toggleClass('hidden');
     this.toggleClass('selected');
   }
+
+  gridIsValid() {
+    let currentColor;
+    for (let box of this.props.grid.flatten()) {
+      if (box.classNames.has('selected')) {
+        if (currentColor === undefined) {
+          currentColor = box.color;
+        } else {
+          if (box.color !== currentColor) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  componentDidUpdate() {
+    if (!this.state.processing && !this.gridIsValid()) {
+      this.setState({
+        processing: true
+      }, () => {
+        this.props.dispatch(hideSelected(500, undefined, 'temp1')); 
+        this.props.dispatch(unselectSelected(500, undefined, 'temp2'));
+        this.props.dispatch(shakeUnselected(1000, 100));
+        setTimeout(() => {
+          this.setState({
+            processing: false
+          });
+        }, 1100);
+      })
+    }
+  }
+
+
 }
 
 const select = (state) => ({});

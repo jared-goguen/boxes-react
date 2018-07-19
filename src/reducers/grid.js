@@ -145,8 +145,18 @@ export class Grid extends baseGrid {
     return this.iterate(this.boxes, (box) => box.toggleClass(name), condition);
   }
 
+  flatten() {
+    const flatBoxes = [];
+    for (let rowElement of this.boxes) {
+      for (let box of rowElement) {
+        flatBoxes.push(box);
+      }
+    }
+    return flatBoxes;
+  }
+
   shuffle() {
-    let flatBoxes = [].concat.apply([], this.boxes.toJS());
+    let flatBoxes = this.flatten();
     shuffle(flatBoxes);
     let shuffled = [];
     for (let rowElement of this.boxes) {

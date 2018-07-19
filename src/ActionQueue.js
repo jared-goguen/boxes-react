@@ -6,7 +6,7 @@ export class ActionQueue {
 
   register(dispatch, action) {
     this.actions.push(action);
-    console.log(`Action ${action.type} (${action.timeout}) was registered...`);
+    console.log(`Action ${action.type} (${action._timeout}) was registered...`);
     if (!this.processing) {
       this.process(dispatch);
     } else {
@@ -18,7 +18,6 @@ export class ActionQueue {
 
   _process(dispatch) {
     console.log(`Actions in queue: ${this.actions.length}`);
-    console.log(this.actions);
     const action = this.actions.shift();
 
     if (action === undefined) {
@@ -29,14 +28,14 @@ export class ActionQueue {
 
     console.log(`Processing ${action.type}...`);
 
-    action.enqueue = false;
-    action.delayed = true;
+    action._enqueue = false;
+    action._delayed = true;
     dispatch(action);
-    console.log(`Setting timeout (${action.timeout})...`);
+    console.log(`Setting timeout (${action._timeout})...`);
     setTimeout(() => {
       console.log('Timeout is done...')
       this._process(dispatch);
-    }, action.timeout);
+    }, action._timeout);
   }
 
   process(dispatch) {
@@ -51,14 +50,17 @@ export class ActionQueue {
   }
 }
 
-export function generateActionCreator(reducerName) {
-  return (dispatch, action, timeout) => {
-    action.enqueue = true;
-    action.reducerName = reducerName;
-    action.timeout = timeout;
-    dispatch(action);
-  } 
+const initialState = {
+  default: new ActionQueue()
 }
+export function queueReducer(state=initialState, action) {return state}
+
+export function createAction(dispatch, action, timeout, queueName='default') {
+  action._enqueue = true;
+  action._queueName = queueName;
+  action._timeout = timeout;
+  dispatch(action);
+} 
 
 export function aque({ dispatch, getState }) {
   return next => action => {
@@ -71,8 +73,14 @@ export function aque({ dispatch, getState }) {
       return { type: 'FORWARD_ACTION' };
     }
 
-    if (action.enqueue) {
-      const queue = getState()[action.reducerName].actions;
+    if (action._enqueue) {
+      const queueReducer = getState().queueReducer;
+      let queue = queueReducer[action._queueName];
+
+      if (queue === undefined) {
+        queue = queueReducer[action._queueName] = new ActionQueue();
+      }
+
       console.log(`Registering ${action.type}...`);
       queue.register(dispatch, action);
       console.log(`Dispatching DELAYED_ACTION...`);

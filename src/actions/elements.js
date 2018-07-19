@@ -23,9 +23,7 @@ import {
   loadNextLevel
 } from './app';
 
-import { generateActionCreator } from '../ActionQueue';
-
-const enqueueAction = generateActionCreator('elements');
+import { createAction } from '../ActionQueue';
 
 export function setGridDimensions(dimensions) {
   return { type: SET_GRID_DIMENSIONS, ...dimensions };
@@ -64,11 +62,11 @@ export function setSelected() {
 }
 
 function createAnimation(actionStart, actionStop) {
-  return (timeoutStart, timeoutStop) => {
+  return (timeoutStart, timeoutStop, queue) => {
     return (dispatch) => {
-      enqueueAction(dispatch, actionStart, timeoutStart);
+      createAction(dispatch, actionStart, timeoutStart, queue);
       if (actionStop !== undefined && timeoutStop !== undefined) {
-        enqueueAction(dispatch, actionStop, timeoutStop);
+        createAction(dispatch, actionStop, timeoutStop, queue);
       }
     }  
   }
@@ -95,46 +93,52 @@ export const unfadeUnselected = createAnimation(startUnfadeUnselected);
 const startZoomUpSelected = addAllClass('zoom-up', selected);
 export const zoomUpSelected = createAnimation(startZoomUpSelected);
 
-function randomClassChange(func, boxes, name, timeout) {
+const startUnselectSelected = deleteAllClass('selected', selected);
+export const unselectSelected = createAnimation(startUnselectSelected);
+
+const startHideSelected = addAllClass('hidden', selected);
+export const hideSelected = createAnimation(startHideSelected);
+
+function randomClassChange(func, boxes, name, timeout, queue) {
   return (dispatch) => {
     let flatBoxes = [].concat.apply([], boxes);
     shuffle(flatBoxes);
     for (let box of flatBoxes) {
       let action = func(box.row, box.col, name);
-      enqueueAction(dispatch, action, timeout)
+      createAction(dispatch, action, timeout, queue)
     }
   }
 }
 
-export function addRandomClass(boxes, name, timeout) {
-  return randomClassChange(addBoxClass, boxes, name, timeout);
+export function addRandomClass(boxes, name, timeout, queue) {
+  return randomClassChange(addBoxClass, boxes, name, timeout, queue);
 }
 
-export function deleteRandomClass(boxes, name, timeout) {
-  return randomClassChange(deleteBoxClass, boxes, name, timeout);
+export function deleteRandomClass(boxes, name, timeout, queue) {
+  return randomClassChange(deleteBoxClass, boxes, name, timeout, queue);
 }
 
-export function toggleRandomClass(boxes, name, timeout) {
-  return randomClassChange(toggleBoxClass, boxes, name, timeout);
+export function toggleRandomClass(boxes, name, timeout, queue) {
+  return randomClassChange(toggleBoxClass, boxes, name, timeout, queue);
 }
 
-export function shuffleGrid(timeout) {
+export function shuffleGrid(timeout, queue) {
   return (dispatch) => {
-    enqueueAction(dispatch, {type: SHUFFLE_GRID }, timeout);
+    createAction(dispatch, {type: SHUFFLE_GRID }, timeout, queue);
   };
 }
 
-export function pause(timeout) {
+export function pause(timeout, queue) {
   return (dispatch) => {
-    enqueueAction(dispatch, { type: BLANK_ACTION }, timeout);
+    createAction(dispatch, { type: BLANK_ACTION }, timeout, queue);
   }
 }
 
-export function transitionMain(timeoutFade, timeoutZoom) {
+export function transitionMain(timeoutFade, timeoutZoom, queue='elements') {
   return (dispatch) => {
     dispatch({ type: SET_SELECTED })
-    fadeUnselected(timeoutFade)(dispatch);
-    zoomUpSelected(timeoutZoom)(dispatch);
+    fadeUnselected(timeoutFade, undefined, queue)(dispatch);
+    zoomUpSelected(timeoutZoom, undefined, queue)(dispatch);
     loadNextLevel(100)(dispatch);
   }
 }
