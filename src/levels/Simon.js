@@ -8,10 +8,11 @@ import {
   deleteRandomClass,
   shuffleGrid,
   shakeUnselected,
+  pause
 } from '../actions/elements';
 
 import {
-  reset,
+  enqueueReset,
   resetAnimation,
   addCorrectAnimation,
   incrementTries,
@@ -46,12 +47,9 @@ class Simon extends Level {
     };
   }
 
-  redisplayClicks() {
-
-  }
-
   setClicks() {
-    this.props.dispatch(reset());
+    this.props.dispatch(enqueueReset());
+    this.props.dispatch(pause(250));
 
     for (let n = 0; n < this.N; n++) {
       let row = Math.floor(Math.random() * this.props.selected.length);
@@ -59,6 +57,7 @@ class Simon extends Level {
       this.props.dispatch(addCorrectAnimation(row, col, 250));
     }
 
+    this.props.dispatch(pause(500));
     this.props.dispatch(resetAnimation(500));
   }
 
@@ -70,7 +69,6 @@ class Simon extends Level {
   }
 
   handleClick(row, col) {
-    console.log(this.props);
     let clicks = this.props.user.slice();
     clicks.push({ row, col });
 

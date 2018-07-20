@@ -22,10 +22,17 @@ export function addCorrect(row, col) {
   return { type: ADD_SIMON_CORRECT, row, col}
 }
 
+export function enqueueReset(timeout, queue) {
+  return (dispatch) => {
+    createAction(dispatch, reset(), timeout, queue);
+  };
+}
+
 export function resetAnimation(timeout, queue) {
   return (dispatch) => {
     unselectSelected(timeout, undefined, queue)(dispatch);
-    hideAll(timeout, undefined, queue)(dispatch);
+    hideAll(0, undefined, queue)(dispatch);
+    dispatch(updateUser([]));
   };
 }
 

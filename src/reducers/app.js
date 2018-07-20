@@ -25,7 +25,7 @@ const testState = {
   index: 1
 }
 
-initialState = Object.assign(initialState, testState);
+initialState = Object.assign(initialState, testState || {});
 
 const handlers = {
   [SET_WINDOW_SIZE]: forwardAction,

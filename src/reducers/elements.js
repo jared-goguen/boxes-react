@@ -53,7 +53,7 @@ const testState = {
   ]
 }
 
-initialState = Object.assign(initialState, testState);
+initialState = Object.assign(initialState, testState || {});
 
 const handlers = {
   [SET_GRID_DIMENSIONS]: forwardAction,
