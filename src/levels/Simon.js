@@ -31,7 +31,7 @@ class Simon extends Level {
   constructor(props) {
     super(props);
     this.N = this.props.selected.length * 2;
-    this.props.dispatch(setSimonMax(this.props.selected.length);
+    this.props.dispatch(setSimonMax(this.props.selected.length));
   }
 
   generateBox(row, col) {
