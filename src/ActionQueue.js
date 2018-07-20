@@ -6,7 +6,7 @@ export class ActionQueue {
 
   register(dispatch, action) {
     this.actions.push(action);
-    console.log(`Action ${action.type} (${action._timeout}) was registered...`);
+    // console.log(`Action ${action.type} (${action._timeout}) was registered...`);
     if (!this.processing) {
       this.process(dispatch);
     } else {
@@ -17,23 +17,23 @@ export class ActionQueue {
   }
 
   _process(dispatch) {
-    console.log(`Actions in queue: ${this.actions.length}`);
+    // console.log(`Actions in queue: ${this.actions.length}`);
     const action = this.actions.shift();
 
     if (action === undefined) {
       this.processing = false;
-      console.log('Processing complete.')
+      // console.log('Processing complete.')
       return;
     } 
 
-    console.log(`Processing ${action.type}...`);
+    // console.log(`Processing ${action.type}...`);
 
     action._enqueue = false;
     action._delayed = true;
     dispatch(action);
-    console.log(`Setting timeout (${action._timeout})...`);
+    // console.log(`Setting timeout (${action._timeout})...`);
     setTimeout(() => {
-      console.log('Timeout is done...')
+      // console.log('Timeout is done...')
       this._process(dispatch);
     }, action._timeout);
   }
@@ -45,7 +45,7 @@ export class ActionQueue {
     }
 
     this.processing = true;
-    console.log('Lauching processing...');
+    // console.log('Lauching processing...');
     this._process(dispatch);
   }
 }
@@ -64,9 +64,9 @@ export function createAction(dispatch, action, timeout, queueName='default') {
 
 export function aque({ dispatch, getState }) {
   return next => action => {
-    console.log(getState());
-    console.log(`Handling ${action.type || action}...`);
-    console.log(action);
+    // console.log(getState());
+    // console.log(`Handling ${action.type || action}...`);
+    // console.log(action);
 
     if (typeof action == 'function') {
       action(dispatch);
@@ -81,12 +81,12 @@ export function aque({ dispatch, getState }) {
         queue = queueReducer[action._queueName] = new ActionQueue();
       }
 
-      console.log(`Registering ${action.type}...`);
+      // console.log(`Registering ${action.type}...`);
       queue.register(dispatch, action);
-      console.log(`Dispatching DELAYED_ACTION...`);
+      // console.log(`Dispatching DELAYED_ACTION...`);
       return { type: 'DELAYED_ACTION' };
     } else {
-      console.log(`Dispatching ${action.type}...`);
+      // console.log(`Dispatching ${action.type}...`);
       return next(action);
     }
   }

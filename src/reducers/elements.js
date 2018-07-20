@@ -6,20 +6,22 @@ import {
   ADD_BOX_CLASS,
   DELETE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
+  ADD_BOX_CLASSES,
+  DELETE_BOX_CLASSES,
+  TOGGLE_BOX_CLASSES,
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
   SET_SELECTED,
   SHUFFLE_GRID,
-  UPDATE_GRID
+  UPDATE_GRID,
+  APPLY_BOX
 } from '../actions';
 
 import { 
   createReducer,
-  forwardAction,
+  forwardAction
 } from './utils';
-
-import { ActionQueue } from '../ActionQueue';
 
 const allColors = [
   '#b31237',
@@ -74,6 +76,21 @@ const handlers = {
     const grid = state.grid.toggleClass(row, col, name);
     return { grid };
   },
+  [ADD_BOX_CLASSES]: (state, action) => {
+    const { row, col, names } = action;
+    const grid = state.grid.addClasses(row, col, names);
+    return { grid };
+  },
+  [DELETE_BOX_CLASSES]: (state, action) => {
+    const { row, col, names } = action;
+    const grid = state.grid.deleteClasses(row, col, names);
+    return { grid };
+  },
+  [TOGGLE_BOX_CLASSES]: (state, action) => {
+    const { row, col, names } = action;
+    const grid = state.grid.toggleClasses(row, col, names);
+    return { grid };
+  },
   [ADD_ALL_CLASS]: (state, action) => {
     const { name, condition } = action;
     const grid = state.grid.addAllClass(name, condition);
@@ -104,7 +121,12 @@ const handlers = {
     let grid = state.grid.shuffle();
     return { grid };
   },
-  [UPDATE_GRID]: forwardAction
+  [UPDATE_GRID]: forwardAction,
+  [APPLY_BOX]: (state, action) => {
+    let { row, col, func, condition } = action;
+    let grid = state.grid.apply(row, col, func, condition);
+    return { grid };
+  }
 };
 
 export default createReducer(initialState, handlers);

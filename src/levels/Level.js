@@ -56,8 +56,8 @@ export class Level extends Component {
 
 const baseSelect = (state, ownProps) => {
   const { width, height } = state.app;
-  const { selected, grid } = state.elements;
-  return { width, height, selected, grid };
+  const { selected } = state.elements;
+  return { width, height, selected };
 };
 
 export function connectLevel(select) {

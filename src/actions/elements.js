@@ -6,13 +6,17 @@ import {
   ADD_BOX_CLASS,
   DELETE_BOX_CLASS,
   TOGGLE_BOX_CLASS,
+  ADD_BOX_CLASSES,
+  DELETE_BOX_CLASSES,
+  TOGGLE_BOX_CLASSES,
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
   SET_SELECTED,
   SHUFFLE_GRID,
   BLANK_ACTION,
-  UPDATE_GRID
+  UPDATE_GRID,
+  APPLY_BOX
 } from '../actions';
 
 import {
@@ -43,6 +47,18 @@ export function deleteBoxClass(row, col, name) {
 
 export function toggleBoxClass(row, col, name) {
   return { type: TOGGLE_BOX_CLASS, row, col, name };
+}
+
+export function addBoxClasses(row, col, names) {
+  return { type: ADD_BOX_CLASSES, row, col, names };
+}
+
+export function deleteBoxClasses(row, col, names) {
+  return { type: DELETE_BOX_CLASSES, row, col, names };
+}
+
+export function toggleBoxClasses(row, col, names) {
+  return { type: TOGGLE_BOX_CLASSES, row, col, names };
 }
 
 export function addAllClass(name, condition) {
@@ -99,6 +115,51 @@ export const unselectSelected = createAnimation(startUnselectSelected);
 const startHideSelected = addAllClass('hidden', selected);
 export const hideSelected = createAnimation(startHideSelected);
 
+const startHideAll = addAllClass('hidden');
+export const hideAll = createAnimation(startHideAll);
+
+export function addBoxClassAnimation(row, col, name, timeout, queue) {
+  return (dispatch) => {
+    let action = addBoxClass(row, col, name);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function deleteBoxClassAnimation(row, col, name, timeout, queue) {
+  return (dispatch) => {
+    let action = deleteBoxClass(row, col, name);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function toggleBoxClassAnimation(row, col, name, timeout, queue) {
+  return (dispatch) => {
+    let action = toggleBoxClass(row, col, name);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function addBoxClassesAnimation(row, col, names, timeout, queue) {
+  return (dispatch) => {
+    let action = addBoxClasses(row, col, names);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function deleteBoxClassesAnimation(row, col, names, timeout, queue) {
+  return (dispatch) => {
+    let action = deleteBoxClasses(row, col, names);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function toggleBoxClassesAnimation(row, col, names, timeout, queue) {
+  return (dispatch) => {
+    let action = toggleBoxClasses(row, col, names);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
 function randomClassChange(func, boxes, name, timeout, queue) {
   return (dispatch) => {
     let flatBoxes = [].concat.apply([], boxes);
@@ -134,7 +195,7 @@ export function pause(timeout, queue) {
   }
 }
 
-export function transitionMain(timeoutFade, timeoutZoom, queue='elements') {
+export function transitionMain(timeoutFade, timeoutZoom, queue) {
   return (dispatch) => {
     dispatch({ type: SET_SELECTED })
     fadeUnselected(timeoutFade, undefined, queue)(dispatch);
@@ -145,4 +206,14 @@ export function transitionMain(timeoutFade, timeoutZoom, queue='elements') {
 
 export function updateGrid(grid) {
   return { type: UPDATE_GRID, grid }
+}
+
+export function applyBox(row, col, func) {
+  return { type: APPLY_BOX, row, col, func };
+}
+
+export function applyBoxAnimation(row, col, func, timeout, queue) {
+  return (dispatch) => {
+    createAction(dispatch, applyBox(row, col, func), timeout, queue);
+  };
 }

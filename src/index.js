@@ -5,7 +5,7 @@ import './styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import { aque, queueReducer } from './ActionQueue';
+import { aque } from './ActionQueue';
 import reducers from './reducers';
 
 

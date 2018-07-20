@@ -44,6 +44,34 @@ export class Box extends baseBox {
     }
   }
 
+  addClasses(names) {
+    let classNames = this.classNames;
+    for (let name of names) {
+      classNames = classNames.add(name);
+    }
+    return this.merge({ classNames });
+  }
+
+  deleteClasses(names) {
+    let classNames = this.classNames;
+    for (let name of names) {
+      classNames = classNames.delete(name);
+    }
+    return this.merge({ classNames });
+  }
+
+  toggleClasses(names) {
+    let classNames = this.classNames;
+    for (let name of names) {
+      if (classNames.has(name)) {
+        classNames = classNames.delete(name);
+      } else {
+        classNames = classNames.add(name);
+      }
+    }
+    return this.merge({ classNames });
+  }
+
   move(row, col) {
     return this.merge({ row, col });
   }
@@ -133,6 +161,18 @@ export class Grid extends baseGrid {
     return this.apply(row, col, (box) => box.toggleClass(name), condition);
   }
 
+  addClasses(row, col, names, condition) {
+    return this.apply(row, col, (box) => box.addClasses(names), condition);
+  }
+
+  deleteClasses(row, col, names, condition) {
+    return this.apply(row, col, (box) => box.deleteClasses(names), condition);
+  }
+
+  toggleClasses(row, col, names, condition) {
+    return this.apply(row, col, (box) => box.toggleClasses(names), condition);
+  }
+
   addAllClass(name, condition) {
     return this.iterate(this.boxes, (box) => box.addClass(name), condition);
   }
@@ -185,5 +225,12 @@ export class Grid extends baseGrid {
     boxes = Immutable.fromJS(boxes);
     mapping = Immutable.fromJS(mapping);
     return this.merge({ boxes, mapping });
+  }
+
+  clearClasses(defaultClasses=[]) {
+    return this.iterate(this.boxes, (box) => {
+      let classNames = new Set(defaultClasses);
+      return box.merge({ classNames });
+    });
   }
 }

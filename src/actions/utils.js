@@ -1,3 +1,6 @@
+import _ from 'lodash';
+
+
 export function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -15,4 +18,22 @@ export function shuffle(array) {
   }
 
   return array;
+}
+
+export function partialArrayMatch(array, test) {
+  if (test.length > array.length) {
+    return { valid: false, complete: false };
+  }
+
+  for (let i = 0; i < test.length; i++) {
+    if (!_.isEqual(test[i], array[i])) {
+      return { valid: false, complete: false };
+    }
+  }
+
+  if (test.length < array.length) {
+    return { valid: true, complete: false };
+  }
+
+  return { valid: true, complete: true };
 }
