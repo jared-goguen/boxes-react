@@ -2,10 +2,13 @@ import '../styles/Main.scss';
 
 import React from 'react';
 import { connectLevel, Level } from './Level';
+import { Set } from 'immutable';
+
 import {  
   toggleColor, 
   shakeUnselected,
-  transitionMain
+  transitionMain,
+  deleteRandomClass
 } from '../actions/elements';
 
 import {
@@ -29,9 +32,19 @@ class Main extends Level {
       color: color,
       side: this.props.side,
       onBoxClick: this.onBoxClick,
+      classNames: new Set(['fade', 'hidden']),
       gridRow: 0,
       gridCol: index
     }))];
+  }
+
+  componentDidMount() {
+    setTimeout(() => { 
+      this.mainButton.current.classList.remove('MainFade')
+    }, 250);
+    const timeoutLength = 250 / this.props.selected.length;
+    this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
+    this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', timeoutLength));
   }
 
   onBoxClick(box, grid, dispatch) {
@@ -59,7 +72,7 @@ class Main extends Level {
     return (
       <div className='Main'>
         <Grid />
-        <div className='MainButtonWrapper' ref={this.mainButton}>
+        <div className='MainButtonWrapper MainFade' ref={this.mainButton}>
           <button className='MainButton' onClick={this.mainClick} />
         </div>
       </div>

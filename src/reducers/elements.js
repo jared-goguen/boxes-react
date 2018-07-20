@@ -49,10 +49,9 @@ let initialState = {
 
 const testState = {
   selected: [
-    '#f03813',
     '#ff8826',
     '#ffb914',
-    '#3be2a8',
+    '#3be2a8'
   ]
 }
 

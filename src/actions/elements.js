@@ -111,12 +111,19 @@ const unselected = (box) => {
   return !box.classNames.has('selected');
 };
 
+const faded = (box) => {
+  return box.classNames.has('fade');
+};
+
 const startShakeUnselected = addAllClass('shake', unselected);
 const stopShakeUnselected = deleteAllClass('shake', unselected);
 export const shakeUnselected = createAnimation(startShakeUnselected, stopShakeUnselected);
 
 const startFadeUnselected = addAllClass('fade', unselected);
 export const fadeUnselected = createAnimation(startFadeUnselected);
+
+const startFadeSelected = addAllClass('fade', selected);
+export const fadeSelected = createAnimation(startFadeSelected);
 
 const startUnfadeUnselected = deleteAllClass('fade', unselected);
 export const unfadeUnselected = createAnimation(startUnfadeUnselected);
@@ -136,6 +143,9 @@ export const hideAll = createAnimation(startHideAll);
 const startBurnoutAll = addAllClass('burnout');
 const stopBurnoutAll = toggleAllClasses(['fade', 'burnout']);
 export const burnoutAll = createAnimation(startBurnoutAll, stopBurnoutAll);
+
+const startUnfadeFaded = deleteAllClass('fade', faded);
+export const unfadeFaded = createAnimation(startUnfadeFaded);
 
 export function addBoxClassAnimation(row, col, name, timeout, queue) {
   return (dispatch) => {

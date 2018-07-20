@@ -68,7 +68,7 @@ export function updateUser(user) {
   return { type: UPDATE_SIMON_USER, user };
 }
 
-export function transitionSimon(timeoutReset, timeoutBurnoutStart, timeoutBurnoutStop, queue) {
+export function transition(timeoutReset, timeoutBurnoutStart, timeoutBurnoutStop, queue) {
   return (dispatch) => {
     dispatch(reset());
     unselectSelected(0, undefined, queue)(dispatch);
@@ -78,6 +78,6 @@ export function transitionSimon(timeoutReset, timeoutBurnoutStart, timeoutBurnou
   }
 }
 
-export function setSimonMax(maxTries) {
+export function setMax(maxTries) {
   return { type: SET_SIMON_MAX, maxTries };
 }

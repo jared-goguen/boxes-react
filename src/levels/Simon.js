@@ -1,5 +1,3 @@
-import '../styles/Simon.scss';
-
 import React from 'react';
 import { connectLevel, Level } from './Level';
 import { Set } from 'immutable';
@@ -18,8 +16,8 @@ import {
   incrementTries,
   redisplayCorrect,
   updateUser,
-  transitionSimon,
-  setSimonMax
+  transition,
+  setMax
 } from '../actions/simon';
 
 import {
@@ -31,7 +29,7 @@ class Simon extends Level {
   constructor(props) {
     super(props);
     this.N = this.props.selected.length * 2;
-    this.props.dispatch(setSimonMax(this.props.selected.length));
+    this.props.dispatch(setMax(this.props.selected.length));
   }
 
   generateBox(row, col) {
@@ -92,7 +90,8 @@ class Simon extends Level {
     }
 
     if (match.complete) {
-      this.props.dispatch(transitionSimon(500, 750, 250));
+      this.props.dispatch(pause(500));
+      this.props.dispatch(transition(500, 750, 750));
     }
   }
 

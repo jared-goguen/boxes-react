@@ -45,12 +45,13 @@
   }
 
   > div.hidden {
-    background: #444444 !important;
+    background-color: #444444 !important;
   }
 
   > div.burnout {
-    background: #eeeeee !important;
-    transition: background 0.75s ease-out;
+    background-color: #ffffff !important;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
   }
 }
 

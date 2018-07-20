@@ -1,5 +1,3 @@
-import { Grid, Box } from './grid';
-
 import {
   RESET_SIMON,
   ADD_SIMON_CORRECT,
@@ -33,7 +31,7 @@ const handlers = {
   },
   [ADD_SIMON_CORRECT]: (state, action) => {
     let { row, col } = action;
-    let correct = state.correct;
+    let correct = state.correct.slice();
     correct.push({ row, col });
     return { correct };
   },

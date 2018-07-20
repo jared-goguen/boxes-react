@@ -7,6 +7,7 @@ import {
 
 import Main from '../levels/Main';
 import Simon from '../levels/Simon';
+import Memory from '../levels/Memory';
 
 import { 
   createReducer,
@@ -18,7 +19,7 @@ let initialState = {
   height: undefined,
   instantiated: false,
   index: 0,
-  levels: [<Main />, <Simon />]
+  levels: [<Main />, <Simon />, <Memory />]
 };
 
 const testState = {

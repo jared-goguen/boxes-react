@@ -16,10 +16,12 @@ class Box extends Component {
 
   onClick() {
     let { box, grid, dispatch, onBoxClick } = this.props;
-    if (!this.props.isProcessing()) {
-      this.onBoxClick(box, grid, dispatch);
-    } else {
+    if (this.props.box.hasClass('fade')) {
+      console.log('Cannot click while faded...');
+    } else if (this.props.isProcessing()) {
       console.log('Cannot click while processing...');
+    } else {
+      this.onBoxClick(box, grid, dispatch);
     }
   }
 
@@ -52,7 +54,7 @@ class Box extends Component {
 
   getInnerStyle() {
     return {
-      background: this.props.box.color,
+      backgroundColor: this.props.box.color,
     }
   }
 

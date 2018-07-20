@@ -15,10 +15,10 @@
   right: 3%;
   bottom: 3%;
   height: 12%;
-  width: 12%
+  width: 12%;
+  transition: all 0.5s linear;
 }
 
 .MainFade {
   opacity: 0;
-  transition: all 0.25s linear;
 }
