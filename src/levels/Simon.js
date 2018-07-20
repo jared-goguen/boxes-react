@@ -105,7 +105,6 @@ class Simon extends Level {
 }
 
 const select = (state) => {
-  console.log(state)
   return { ...state.simon };
 };
 

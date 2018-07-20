@@ -16,7 +16,11 @@ class Box extends Component {
 
   onClick() {
     let { box, grid, dispatch, onBoxClick } = this.props;
-    this.onBoxClick(box, grid, dispatch);
+    if (!this.props.isProcessing()) {
+      this.onBoxClick(box, grid, dispatch);
+    } else {
+      console.log('Cannot click while processing...');
+    }
   }
 
   addClass(name, condition) {
@@ -68,7 +72,8 @@ class Box extends Component {
 export const select = (state, ownProps) => {
   const { padding, side, grid } = state.elements;
   const box = state.elements.grid.getInGrid(ownProps.gridRow, ownProps.gridCol);
-  return { padding, side, grid, box }
+  const { isProcessing } = state.queueReducer;
+  return { padding, side, grid, box, isProcessing }
 };
 
 export default connect(select)(Box);

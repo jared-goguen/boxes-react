@@ -5,7 +5,7 @@ import './styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import { aque } from './ActionQueue';
+import { aque, bindProcessing } from './ActionQueue';
 import reducers from './reducers';
 
 
@@ -14,6 +14,8 @@ import App from './App';
 
 
 const store = createStore(reducers, applyMiddleware(aque));
+bindProcessing(store);
+window.store = store;
 
 const app = (
   <Provider store={store}>

@@ -91,3 +91,19 @@ export function aque({ dispatch, getState }) {
     }
   }
 }
+
+export function bindProcessing(store) {
+  let { queueReducer } = store.getState();
+  let isProcessing = function() {
+    for (let queueName in this) {
+      if (queueName === 'isProcessing') {
+        continue;
+      }
+      if (this[queueName].processing) {
+        return true;
+      }
+    }
+    return false;
+  }
+  queueReducer.isProcessing = isProcessing.bind(queueReducer);
+}
