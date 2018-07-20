@@ -185,6 +185,18 @@ export class Grid extends baseGrid {
     return this.iterate(this.boxes, (box) => box.toggleClass(name), condition);
   }
 
+  addAllClasses(names, condition) {
+    return this.iterate(this.boxes, (box) => box.addClasses(names), condition);
+  }
+
+  deleteAllClasses(names, condition) {
+    return this.iterate(this.boxes, (box) => box.deleteClasses(names), condition);
+  }
+
+  toggleAllClasses(names, condition) {
+    return this.iterate(this.boxes, (box) => box.toggleClasses(names), condition);
+  }
+
   flatten() {
     const flatBoxes = [];
     for (let rowElement of this.boxes) {

@@ -44,8 +44,13 @@
     animation-fill-mode: forwards;
   }
 
-  >div.hidden {
+  > div.hidden {
     background: #444444 !important;
+  }
+
+  > div.burnout {
+    background: #eeeeee !important;
+    transition: background 0.75s ease-out;
   }
 }
 

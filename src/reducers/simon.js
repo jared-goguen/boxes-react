@@ -4,7 +4,8 @@ import {
   RESET_SIMON,
   ADD_SIMON_CORRECT,
   INCREMENT_SIMON_TRIES,
-  UPDATE_SIMON_USER
+  UPDATE_SIMON_USER,
+  SET_SIMON_MAX
 } from '../actions';
 
 import { 
@@ -40,7 +41,8 @@ const handlers = {
     let tries = state.tries + 1;
     return { tries };
   },
-  [UPDATE_SIMON_USER]: forwardAction
+  [UPDATE_SIMON_USER]: forwardAction,
+  [SET_SIMON_MAX]: forwardAction
 };
 
 export default createReducer(initialState, handlers);

@@ -12,6 +12,9 @@ import {
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
+  ADD_ALL_CLASSES,
+  DELETE_ALL_CLASSES,
+  TOGGLE_ALL_CLASSES,
   SET_SELECTED,
   SHUFFLE_GRID,
   UPDATE_GRID,
@@ -46,10 +49,10 @@ let initialState = {
 
 const testState = {
   selected: [
+    '#f03813',
+    '#ff8826',
     '#ffb914',
     '#3be2a8',
-    '#2c9fa3',
-    '#913f92',
   ]
 }
 
@@ -104,6 +107,21 @@ const handlers = {
   [TOGGLE_ALL_CLASS]: (state, action) => {
     const { name, condition } = action;
     const grid = state.grid.toggleAllClass(name, condition);
+    return { grid };
+  },
+  [ADD_ALL_CLASSES]: (state, action) => {
+    const { names, condition } = action;
+    const grid = state.grid.addAllClasses(names, condition);
+    return { grid };
+  },
+  [DELETE_ALL_CLASSES]: (state, action) => {
+    const { names, condition } = action;
+    const grid = state.grid.deleteAllClasses(names, condition);
+    return { grid };
+  },
+  [TOGGLE_ALL_CLASSES]: (state, action) => {
+    const { names, condition } = action;
+    const grid = state.grid.toggleAllClasses(names, condition);
     return { grid };
   },
   [SET_SELECTED]: (state, action) => {

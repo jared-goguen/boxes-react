@@ -17,7 +17,9 @@ import {
   addCorrectAnimation,
   incrementTries,
   redisplayCorrect,
-  updateUser
+  updateUser,
+  transitionSimon,
+  setSimonMax
 } from '../actions/simon';
 
 import {
@@ -28,11 +30,8 @@ import {
 class Simon extends Level {
   constructor(props) {
     super(props);
-    this.state = {
-      resetting: false,
-      displaying: false,
-    }
     this.N = this.props.selected.length * 2;
+    this.props.dispatch(setSimonMax(this.props.selected.length);
   }
 
   generateBox(row, col) {
@@ -68,7 +67,7 @@ class Simon extends Level {
     this.setClicks();
   }
 
-  handleClick(row, col) {
+  handleClick(reactBox, row, col) {
     let clicks = this.props.user.slice();
     clicks.push({ row, col });
 
@@ -87,19 +86,19 @@ class Simon extends Level {
         this.props.dispatch(redisplayCorrect(this.props.correct, 250));
       }
     } else {
+      reactBox.toggleClass('hidden');
+      reactBox.toggleClass('selected');
       this.props.dispatch(updateUser(clicks));
     }
 
     if (match.complete) {
-      alert('donezo');
+      this.props.dispatch(transitionSimon(500, 750, 250));
     }
   }
 
   onBoxClick(handler) {
     return function(box, grid, dispatch) {
-      this.toggleClass('hidden');
-      this.toggleClass('selected');
-      handler(this.props.box.row, this.props.box.col);
+      handler(this, this.props.box.row, this.props.box.col);
     }
   }
 }

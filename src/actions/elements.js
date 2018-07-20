@@ -12,6 +12,9 @@ import {
   ADD_ALL_CLASS,
   DELETE_ALL_CLASS,
   TOGGLE_ALL_CLASS,
+  ADD_ALL_CLASSES,
+  DELETE_ALL_CLASSES,
+  TOGGLE_ALL_CLASSES,
   SET_SELECTED,
   SHUFFLE_GRID,
   BLANK_ACTION,
@@ -73,6 +76,18 @@ export function toggleAllClass(name, condition) {
   return { type: TOGGLE_ALL_CLASS, name, condition };
 }
 
+export function addAllClasses(names, condition) {
+  return { type: ADD_ALL_CLASSES, names, condition };
+}
+
+export function deleteAllClasses(names, condition) {
+  return { type: DELETE_ALL_CLASSES, names, condition };
+}
+
+export function toggleAllClasses(names, condition) {
+  return { type: TOGGLE_ALL_CLASSES, names, condition };
+}
+
 export function setSelected() {
   return { type: SET_SELECTED };
 }
@@ -117,6 +132,10 @@ export const hideSelected = createAnimation(startHideSelected);
 
 const startHideAll = addAllClass('hidden');
 export const hideAll = createAnimation(startHideAll);
+
+const startBurnoutAll = addAllClass('burnout');
+const stopBurnoutAll = toggleAllClasses(['fade', 'burnout']);
+export const burnoutAll = createAnimation(startBurnoutAll, stopBurnoutAll);
 
 export function addBoxClassAnimation(row, col, name, timeout, queue) {
   return (dispatch) => {
