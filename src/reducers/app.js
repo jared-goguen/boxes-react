@@ -13,7 +13,8 @@ import Light from '../levels/Light';
 
 import { 
   createReducer,
-  forwardAction
+  forwardAction,
+  combineStates
 } from './utils';
 
 let initialState = {
@@ -28,7 +29,7 @@ const testState = {
   index: 4
 }
 
-initialState = Object.assign(initialState, testState || {});
+initialState = combineStates(initialState, testState);
 
 const handlers = {
   [SET_WINDOW_SIZE]: forwardAction,

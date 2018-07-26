@@ -12,3 +12,10 @@ export const forwardAction = (state, action) => {
   delete reduced.type;
   return reduced;
 }
+
+export const combineStates = (initialState, testState) => {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    return Object.assign(initialState, testState || {});
+  }
+  return initialState;
+}

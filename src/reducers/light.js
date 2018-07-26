@@ -6,7 +6,8 @@ import {
 
 import { 
   createReducer,
-  forwardAction
+  forwardAction,
+  combineStates
 } from './utils';
 
 
@@ -18,7 +19,7 @@ let testState = {
 
 }
 
-initialState = Object.assign(initialState, testState || {});
+initialState = combineStates(initialState, testState);
 
 const handlers = {
   [RESET_LIGHT]: (state, action) => {

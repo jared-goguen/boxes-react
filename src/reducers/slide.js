@@ -5,7 +5,8 @@ import {
 
 import { 
   createReducer,
-  forwardAction
+  forwardAction,
+  combineStates
 } from './utils';
 
 
@@ -20,7 +21,7 @@ let testState = {
 
 }
 
-initialState = Object.assign(initialState, testState || {});
+initialState = combineStates(initialState, testState);
 
 const handlers = {
   [SET_SLIDE_NULL]: (state, action) => {

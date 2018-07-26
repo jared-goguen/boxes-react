@@ -26,7 +26,8 @@ import {
 
 import { 
   createReducer,
-  forwardAction
+  forwardAction,
+  combineStates
 } from './utils';
 
 const allColors = [
@@ -59,7 +60,7 @@ const testState = {
   ]
 }
 
-initialState = Object.assign(initialState, testState || {});
+initialState = combineStates(initialState, testState);
 
 const handlers = {
   [SET_GRID_DIMENSIONS]: forwardAction,
