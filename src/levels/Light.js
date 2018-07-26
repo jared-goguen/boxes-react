@@ -2,10 +2,6 @@ import React from 'react';
 import { connectLevel, Level } from './Level';
 import { Set } from 'immutable';
 
-import {
-  setBoxColor
-} from '../actions/elements';
-
 import { 
   deleteAllClassAnimation,
   pause
@@ -14,6 +10,7 @@ import {
 import {
   initializeLight,
   setTracker,
+  boxClickAnimation,
   transition
 } from '../actions/light';
 
@@ -52,21 +49,19 @@ class Light extends Level {
 
   simulateClicks(count) {
     let tracker = this.props.tracker.map(row => row.slice());
-    let i = 0;
-    let context = this;
 
-    let lightIntervalID = setInterval(()=> {
-      if (++i === count) {
-        window.clearInterval(lightIntervalID);
-      }  
-      let row = context.randomIndex();
-      let col = context.randomIndex();
-      tracker = context.basicClick(row, col, tracker);
-      this.props.dispatch(setTracker(tracker));
-    }, 50);
+    for (let i = 0; i < count; i++) {
+      let row = this.randomIndex();
+      let col = this.randomIndex();
+      tracker = this.basicClick(row, col, tracker, 50);
+    }
+
+    this.props.dispatch(setTracker(tracker));
   }
 
-  basicClick(row, col, tracker) {
+  basicClick(row, col, tracker, timeout, queue) {
+    let boxInfos = [];
+
     for (let [dR, dC] of this.pairs) {
       let newRow = row + dR;
       let newCol = col + dC;
@@ -83,18 +78,22 @@ class Light extends Level {
       let nextColor = this.props.selected[nextIndex];
 
       tracker[newRow][newCol] = nextIndex;
-      this.props.dispatch(setBoxColor(newRow, newCol, nextColor));
+      boxInfos.push({
+        row: newRow,
+        col: newCol,
+        color: nextColor
+      });
     }
 
+    this.props.dispatch(boxClickAnimation(boxInfos, timeout, queue));
     return tracker;
   }
 
   handleClick(reactBox, row, col) {
     let tracker = this.props.tracker.map(row => row.slice());
 
-    tracker = this.basicClick(row, col, tracker)
+    tracker = this.basicClick(row, col, tracker, 250)
     this.props.dispatch(setTracker(tracker));
-    this.props.dispatch(pause(250));
 
     let index = tracker[0][0];
 
@@ -106,7 +105,7 @@ class Light extends Level {
       }
     }
 
-    this.props.dispatch(transition(this.boxes, 500, 500));
+    this.props.dispatch(transition(this.boxes, 500, 1000));
   }
 
   onBoxClick(handler) {

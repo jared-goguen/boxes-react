@@ -25,7 +25,7 @@ let initialState = {
 };
 
 const testState = {
-  index: 0
+  index: 4
 }
 
 initialState = Object.assign(initialState, testState || {});

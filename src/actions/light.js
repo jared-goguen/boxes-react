@@ -5,6 +5,10 @@ import {
 } from '../actions';
 
 import {
+  setBoxColor
+} from './elements';
+
+import {
   addRandomClass
 } from './animations';
 
@@ -25,6 +29,21 @@ export function initializeLight(index, N) {
 
 export function setTracker(tracker) {
   return { type: SET_TRACKER, tracker };
+}
+
+export function boxClickAnimation(boxInfos, timeout, queue) {
+  return (dispatch) => {
+    let lastInfo = boxInfos.pop();
+    let row, col, color;
+    for (let boxInfo of boxInfos) {
+      let { row, col, color } = boxInfo;
+      createAction(dispatch, setBoxColor(row, col, color), 0, queue);
+    }
+    row = lastInfo.row;
+    col = lastInfo.col;
+    color = lastInfo.color;
+    createAction(dispatch, setBoxColor(row, col, color), timeout, queue);
+  };
 }
 
 export function transition(boxes, timeoutHide, timeoutFade, queue) {
