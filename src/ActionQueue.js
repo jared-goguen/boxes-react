@@ -65,8 +65,8 @@ export function createAction(dispatch, action, timeout, queueName='default') {
 export function aque({ dispatch, getState }) {
   return next => action => {
     // console.log(getState());
-    console.log(`Handling ${action.type || action}...`);
-    console.log(action);
+    // console.log(`Handling ${action.type || action}...`);
+    // console.log(action);
 
     if (typeof action == 'function') {
       action(dispatch);

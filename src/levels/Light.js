@@ -51,7 +51,6 @@ class Light extends Level {
   }
 
   simulateClicks(count) {
-    console.log(this.props);
     let tracker = this.props.tracker.map(row => row.slice());
     let i = 0;
     let context = this;
