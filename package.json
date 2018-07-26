@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:dev": "webpack",
-    "start:dev": "webpack-dev-server --hot"
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --hot --config webpack.dev.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "clean-webpack-plugin": "^0.1.19",
     "immutable": "^3.8.2",
     "lodash": "^4.17.10",
     "react": "^16.4.1",
@@ -31,6 +32,7 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.0"
+    "webpack-dev-server": "^3.1.0",
+    "webpack-merge": "^4.1.3"
   }
 }
