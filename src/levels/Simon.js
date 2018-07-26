@@ -28,7 +28,7 @@ import {
 class Simon extends Level {
   constructor(props) {
     super(props);
-    this.N = this.props.selected.length * 2;
+    this.N = this.props.selected.length + 2;
     this.props.dispatch(setMax(this.props.selected.length));
   }
 

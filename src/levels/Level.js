@@ -45,6 +45,11 @@ export class Level extends Component {
     return boxes;
   }
 
+
+  randomIndex(n) {
+    return Math.floor(Math.random() * this.props.selected.length);
+  }
+
   render() {
     return (
       <div className={this.constructor.name}>

@@ -18,7 +18,9 @@ import {
   SET_SELECTED,
   SHUFFLE_GRID,
   UPDATE_GRID,
-  APPLY_BOX
+  APPLY_BOX,
+  NULLIFY_BOX,
+  SWAP_BOXES
 } from '../actions';
 
 import { 
@@ -51,7 +53,8 @@ const testState = {
   selected: [
     '#ff8826',
     '#ffb914',
-    '#3be2a8'
+    '#3be2a8',
+    '#2c9fa3'
   ]
 }
 
@@ -142,6 +145,16 @@ const handlers = {
   [APPLY_BOX]: (state, action) => {
     let { row, col, func, condition } = action;
     let grid = state.grid.apply(row, col, func, condition);
+    return { grid };
+  },
+  [NULLIFY_BOX]: (state, action) => {
+    let { row, col } = action;
+    let grid = state.grid.nullifyBox(row, col);
+    return { grid };
+  },
+  [SWAP_BOXES]: (state, action) => {
+    let { pos1, pos2 } = action;
+    let grid = state.grid.swapBoxes(pos1, pos2);
     return { grid };
   }
 };

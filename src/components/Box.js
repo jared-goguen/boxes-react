@@ -59,6 +59,10 @@ class Box extends Component {
   }
 
   render() {
+    if (this.props.box.isNull) {
+      return null;
+    }
+
     return (
       <div className='Box' style={this.getStyle()}>
         <div 

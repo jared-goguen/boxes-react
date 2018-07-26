@@ -19,7 +19,9 @@ import {
   SHUFFLE_GRID,
   BLANK_ACTION,
   UPDATE_GRID,
-  APPLY_BOX
+  APPLY_BOX,
+  NULLIFY_BOX,
+  SWAP_BOXES
 } from '../actions';
 
 import {
@@ -86,6 +88,14 @@ export function deleteAllClasses(names, condition) {
 
 export function toggleAllClasses(names, condition) {
   return { type: TOGGLE_ALL_CLASSES, names, condition };
+}
+
+export function nullifyBox(row, col) {
+  return { type: NULLIFY_BOX, row, col };
+}
+
+export function swapBoxes(pos1, pos2) {
+  return { type: SWAP_BOXES, pos1, pos2 };
 }
 
 export function setSelected() {
@@ -168,6 +178,49 @@ export function toggleBoxClassAnimation(row, col, name, timeout, queue) {
   };
 }
 
+export function addAllClassAnimation(name, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = addAllClass(name, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function deleteAllClassAnimation(name, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = deleteAllClass(name, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function toggleAllClassAnimation(name, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = toggleAllClass(name, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function addAllClassesAnimation(names, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = addAllClasses(names, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function deleteAllClassesAnimation(names, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = deleteAllClasses(names, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+export function toggleAllClassesAnimation(names, condition, timeout, queue) {
+  return (dispatch) => {
+    let action = toggleAllClasses(names, condition);  
+    createAction(dispatch, action, timeout, queue);
+  };
+}
+
+
 export function addBoxClassesAnimation(row, col, names, timeout, queue) {
   return (dispatch) => {
     let action = addBoxClasses(row, col, names);  
@@ -244,5 +297,21 @@ export function applyBox(row, col, func) {
 export function applyBoxAnimation(row, col, func, timeout, queue) {
   return (dispatch) => {
     createAction(dispatch, applyBox(row, col, func), timeout, queue);
+  };
+}
+
+export function nullifyBoxAnimation(row, col, timeout, queue) {
+  return (dispatch) => {
+    addBoxClassAnimation(row, col, 'fade', timeout, queue)(dispatch);
+    createAction(dispatch, nullifyBox(row, col), 0, queue);
+  }
+}
+
+export function swapBoxesAnimation(pos1, pos2, timeout, queue) {
+  return (dispatch) => {
+    let action = swapBoxes(pos1, pos2);
+    addBoxClassAnimation(pos1.row, pos1.col, 'selected', timeout, 'temp1')(dispatch);
+    createAction(dispatch, action, timeout, queue);
+    deleteBoxClassAnimation(pos2.row, pos2.col, 'selected', 0, queue)(dispatch);
   };
 }

@@ -22,6 +22,8 @@ export const SHUFFLE_GRID = 'SHUFFLE_GRID';
 export const BLANK_ACTION = 'BLANK_ACTION';
 export const UPDATE_GRID = 'UPDATE_GRID';
 export const UPDATE_BOX = 'UPDATE_BOX';
+export const NULLIFY_BOX = 'NULLIFY_BOX';
+export const SWAP_BOXES = 'SWAP_BOXES';
 
 // simon
 export const RESET_SIMON = 'RESET_SIMON';
@@ -39,3 +41,7 @@ export const RESET_MEMORY_CLEARED = 'RESET_MEMORY_CLEARED';
 export const INCREMENT_MEMORY_TRIES = 'INCREMENT_MEMORY_TRIES';
 export const RESET_MEMORY_TRIES = 'RESET_MEMORY_TRIES';
 export const RESET_MEMORY = 'RESET_MEMORY';
+
+// slide
+export const SET_SLIDE_NULL = 'SET_SLIDE_NULL';
+export const RESET_SLIDE = 'RESET_SLIDE';

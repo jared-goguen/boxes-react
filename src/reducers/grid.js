@@ -14,7 +14,8 @@ const baseBox = Record({
   col: undefined,
   onBoxClick: undefined,
   gridRow: undefined,
-  gridCol: undefined
+  gridCol: undefined,
+  isNull: false
 }, 'Box');
 
 export class Box extends baseBox {
@@ -76,9 +77,8 @@ export class Box extends baseBox {
     return this.merge({ row, col });
   }
 
-  moveLeft() {
-    let col = this.col - 1;
-    return this.merge({ col });
+  nullify() {
+    return this.merge({ isNull: true });
   }
 }
 
@@ -244,5 +244,29 @@ export class Grid extends baseGrid {
       let classNames = new Set(defaultClasses);
       return box.merge({ classNames });
     });
+  }
+
+  nullifyBox(row, col) {
+    return this.apply(row, col, (box) => {
+      return box.nullify();
+    });
+  }
+
+  swapBoxes(pos1, pos2) {
+
+    let move = ({ row, col }) => (box) => {
+      return box.move(row, col);
+    }
+
+    let box1 = this.getBox(pos1.row, pos1.col);
+    let box2 = this.getBox(pos2.row, pos2.col);
+
+    box1 = box1.move(pos2.row, pos2.col);
+    box2 = box2.move(pos1.row, pos1.col);
+
+    let grid = this.setInGrid(box1.gridRow, box1.gridCol, box1);
+    grid = grid.setInGrid(box2.gridRow, box2.gridCol, box2);
+
+    return grid;
   }
 }

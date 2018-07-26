@@ -5,11 +5,13 @@
   @extend %wrapper;
   transition: all 0.5s ease;
 
+
   > div {
     @extend %inner;
     border-radius: 0%;
     transform: rotate(0deg);
-    transition: all 0.25s linear;    
+    transition: all 0.25s linear;
+    filter: drop-shadow(0px 0px 10px #000);
   }
 
   > div.selected { 
