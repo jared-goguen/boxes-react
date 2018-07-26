@@ -7,5 +7,8 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './public',
     hot: true
-  }
+  },
+  output: {
+    publicPath: 'http://localhost:8080'
+  },
 });
