@@ -45,7 +45,9 @@ class Light extends Level {
   componentDidMount() {
     this.props.dispatch(pause(250));
     this.props.dispatch(deleteAllClassAnimation('fade', undefined, 500));
-    this.simulateClicks(50);
+    setTimeout(() => {
+      this.simulateClicks(50);
+    }, 750);
   }
 
   simulateClicks(count) {
