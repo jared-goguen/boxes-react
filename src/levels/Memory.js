@@ -26,6 +26,7 @@ class Memory extends Level {
     super(props);
     this.N = this.props.selected.length;
     this.props.dispatch(setMax(1));
+    this.timeoutLength = 500 / this.props.selected.length ** 2;
   }
 
   generateBox(row, col) {
@@ -41,10 +42,9 @@ class Memory extends Level {
   }
 
   componentDidMount() {
-    const timeoutLength = 500 / this.props.selected.length ** 2;
-    this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
-    this.props.dispatch(shuffleGridAnimation(500));
-    this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
+    this.props.dispatch(deleteRandomClass(this.boxes, 'fade', this.timeoutLength));
+    this.props.dispatch(shuffleGridAnimation(1000));
+    this.props.dispatch(addRandomClass(this.boxes, 'hidden', this.timeoutLength));
   }
 
   handleClick(reactBox, row, col, color) {
@@ -60,10 +60,9 @@ class Memory extends Level {
         if (this.props.cleared.size == this.N - 1) {
           this.props.dispatch(transition(500));
         } else {
-          const timeoutLength = 500 / this.props.selected.length ** 2;
-          this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', timeoutLength));
-          this.props.dispatch(shuffleGridAnimation(500));
-          this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
+          this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', this.timeoutLength));
+          this.props.dispatch(shuffleGridAnimation(1000));
+          this.props.dispatch(addRandomClass(this.boxes, 'hidden', this.timeoutLength));
         }
       }
     } else {
@@ -73,11 +72,9 @@ class Memory extends Level {
       if (tries >= this.props.maxTries) {
         let faded = this.props.cleared.size > 0;
         this.props.dispatch(resetClearedAnimation(250, faded));
-
-        const timeoutLength = 500 / this.props.selected.length ** 2;
-        this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', timeoutLength));
-        this.props.dispatch(shuffleGridAnimation(500));
-        this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
+        this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', this.timeoutLength));
+        this.props.dispatch(shuffleGridAnimation(1000));
+        this.props.dispatch(addRandomClass(this.boxes, 'hidden', this.timeoutLength));
         this.props.dispatch(resetTries());
       } else {
         this.props.dispatch(incrementTries());
