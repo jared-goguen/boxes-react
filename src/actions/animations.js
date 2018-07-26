@@ -214,6 +214,9 @@ export const hideSelected = createAnimation(startHideSelected);
 const startHideAll = addAllClass('hidden');
 export const hideAll = createAnimation(startHideAll);
 
+const startFadeAll = addAllClass('fade');
+export const fadeAll = createAnimation(startFadeAll);
+
 const startBurnoutAll = addAllClass('burnout');
 const stopBurnoutAll = toggleAllClasses(['fade', 'burnout']);
 export const burnoutAll = createAnimation(startBurnoutAll, stopBurnoutAll);

@@ -60,9 +60,9 @@ class Main extends Level {
     }
     if (selected > 2) {
       this.mainButton.current.classList.add('MainFade')
-      this.props.dispatch(transitionMain(500, 750));
+      this.props.dispatch(transitionMain(500, 500));
     } else {
-      this.props.dispatch(shakeUnselected(1000, 100));
+      this.props.dispatch(shakeUnselected(500, 100));
     }
   }
 

@@ -12,7 +12,7 @@ import {
 import {
   fadeUnselected,
   unselectSelected,
-  fadeSelected
+  fadeAll
 } from './animations';
 
 
@@ -31,7 +31,7 @@ export function transitionMain(timeoutFade, timeoutUnselect, queue) {
     dispatch(setSelected());
     fadeUnselected(timeoutFade, undefined, queue)(dispatch);
     unselectSelected(timeoutUnselect, undefined, queue)(dispatch);
-    fadeSelected(timeoutFade, undefined, queue)(dispatch);
+    fadeAll(timeoutFade, undefined, queue)(dispatch);
     loadNextLevel(100)(dispatch);
   }
 }
