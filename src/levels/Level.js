@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import { 
   setGridDimensions, 
   registerBoxes, 
 } from '../actions/elements';
 
 import Grid from '../components/Grid';
+
 
 export class Level extends Component {
   constructor(props) {
@@ -69,9 +71,11 @@ export function connectLevel(select) {
   if (select === undefined) {
     return connect();
   }
+
   const merged = (state, ownProps) => {
     let partialProps = baseSelect(state, ownProps);
     return Object.assign(partialProps, select(state, ownProps));
   }
+  
   return connect(merged);
 }

@@ -10,14 +10,13 @@ import {
 } from '../actions';
 
 import {
-  toggleBoxClassesAnimation,
   fadeSelected,
   shakeUnselected,
   unselectSelected,
   hideAll,
   unfadeFaded, 
   pause
-} from './elements';
+} from './animations';
 
 import {
   loadNextLevel

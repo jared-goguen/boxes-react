@@ -6,13 +6,14 @@ import {
 import {
   addAllClassAnimation,
   deleteAllClassAnimation
-} from './elements';
+} from './animations';
 
 import {
   loadNextLevel
 } from './app';
 
 import { createAction } from '../ActionQueue';
+
 
 export function reset() {
   return { type: RESET_SLIDE };

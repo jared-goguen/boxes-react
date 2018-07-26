@@ -5,14 +5,12 @@ import { connectLevel, Level } from './Level';
 import { Set } from 'immutable';
 
 import {  
-  toggleColor, 
   shakeUnselected,
-  transitionMain,
   deleteRandomClass
-} from '../actions/elements';
+} from '../actions/animations';
 
 import {
-  loadNextLevel
+  transitionMain
 } from '../actions/app';
 
 import Grid from '../components/Grid';

@@ -5,9 +5,9 @@ import { Set } from 'immutable';
 import { 
   addRandomClass,
   deleteRandomClass,
-  shuffleGrid,
+  shuffleGridAnimation,
   pause
-} from '../actions/elements';
+} from '../actions/animations';
 
 import {
   setMax,
@@ -43,7 +43,7 @@ class Memory extends Level {
   componentDidMount() {
     const timeoutLength = 500 / this.props.selected.length ** 2;
     this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
-    this.props.dispatch(shuffleGrid(500));
+    this.props.dispatch(shuffleGridAnimation(500));
     this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
   }
 
@@ -62,7 +62,7 @@ class Memory extends Level {
         } else {
           const timeoutLength = 500 / this.props.selected.length ** 2;
           this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', timeoutLength));
-          this.props.dispatch(shuffleGrid(500));
+          this.props.dispatch(shuffleGridAnimation(500));
           this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
         }
       }
@@ -76,7 +76,7 @@ class Memory extends Level {
 
         const timeoutLength = 500 / this.props.selected.length ** 2;
         this.props.dispatch(deleteRandomClass(this.boxes, 'hidden', timeoutLength));
-        this.props.dispatch(shuffleGrid(500));
+        this.props.dispatch(shuffleGridAnimation(500));
         this.props.dispatch(addRandomClass(this.boxes, 'hidden', timeoutLength));
         this.props.dispatch(resetTries());
       } else {

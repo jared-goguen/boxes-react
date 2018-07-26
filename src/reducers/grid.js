@@ -2,6 +2,7 @@ import Immutable, { Record, Set, List, Map } from 'immutable';
 
 import { shuffle } from '../actions/utils';
 
+
 function generateKey(row, col) {
   return `${row}-${col}`; 
 }

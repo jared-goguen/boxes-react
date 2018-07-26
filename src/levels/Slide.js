@@ -4,10 +4,10 @@ import { Set } from 'immutable';
 
 import { 
   deleteRandomClass,
-  shuffleGrid,
+  shuffleGridAnimation,
   nullifyBoxAnimation,
   swapBoxesAnimation
-} from '../actions/elements';
+} from '../actions/animations';
 
 import {
   setNullPosition,
@@ -40,7 +40,7 @@ class Slide extends Level {
   componentDidMount() {
     const timeoutLength = 500 / this.props.selected.length ** 2;
     this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
-    this.props.dispatch(shuffleGrid(500));
+    this.props.dispatch(shuffleGridAnimation(500));
 
     let row = this.randomIndex();
     let col = this.randomIndex();

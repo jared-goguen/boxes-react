@@ -4,10 +4,10 @@ import { Set } from 'immutable';
 
 import { 
   deleteRandomClass,
-  shuffleGrid,
+  shuffleGridAnimation,
   shakeUnselected,
   pause
-} from '../actions/elements';
+} from '../actions/animations';
 
 import {
   enqueueReset,
@@ -61,7 +61,7 @@ class Simon extends Level {
   componentDidMount() {
     const timeoutLength = 500 / this.props.selected.length ** 2;
     this.props.dispatch(deleteRandomClass(this.boxes, 'fade', timeoutLength));
-    this.props.dispatch(shuffleGrid(500));
+    this.props.dispatch(shuffleGridAnimation(500));
     this.setClicks();
   }
 
@@ -77,7 +77,7 @@ class Simon extends Level {
 
       let tries = this.props.tries + 1;
       if (tries >= this.props.maxTries) {
-        this.props.dispatch(shuffleGrid(1000));
+        this.props.dispatch(shuffleGridAnimation(1000));
         this.setClicks();
       } else {
         this.props.dispatch(incrementTries());

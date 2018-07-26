@@ -10,9 +10,8 @@ import {
   toggleBoxClassesAnimation,
   unselectSelected,
   hideAll,
-  burnoutAll,
-  pause
-} from './elements';
+  burnoutAll
+} from './animations';
 
 import {
   loadNextLevel

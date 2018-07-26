@@ -8,6 +8,7 @@ import {
   forwardAction
 } from './utils';
 
+
 let initialState = {
   nullPosition: {
     row: undefined,
