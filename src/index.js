@@ -15,7 +15,10 @@ import App from './App';
 
 const store = createStore(reducers, applyMiddleware(aque));
 bindProcessing(store);
-window.store = store;
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  window.store = store;
+}
 
 const app = (
   <Provider store={store}>

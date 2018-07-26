@@ -20,7 +20,8 @@ import {
   UPDATE_GRID,
   APPLY_BOX,
   NULLIFY_BOX,
-  SWAP_BOXES
+  SWAP_BOXES,
+  SET_BOX_COLOR
 } from '../actions';
 
 import { 
@@ -155,6 +156,11 @@ const handlers = {
   [SWAP_BOXES]: (state, action) => {
     let { pos1, pos2 } = action;
     let grid = state.grid.swapBoxes(pos1, pos2);
+    return { grid };
+  },
+  [SET_BOX_COLOR]: (state, action) => {
+    let { row, col, color } = action;
+    let grid = state.grid.setBoxColor(row, col, color);
     return { grid };
   }
 };

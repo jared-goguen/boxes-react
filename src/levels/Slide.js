@@ -14,10 +14,6 @@ import {
   transition
 } from '../actions/slide';
 
-import {
-  partialArrayMatch
-} from '../actions/utils';
-
 
 class Slide extends Level {
   constructor(props) {

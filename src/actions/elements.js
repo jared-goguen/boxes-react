@@ -19,7 +19,8 @@ import {
   UPDATE_GRID,
   APPLY_BOX,
   NULLIFY_BOX,
-  SWAP_BOXES
+  SWAP_BOXES,
+  SET_BOX_COLOR
 } from '../actions';
 
 
@@ -105,4 +106,8 @@ export function updateGrid(grid) {
 
 export function applyBox(row, col, func) {
   return { type: APPLY_BOX, row, col, func };
+}
+
+export function setBoxColor(row, col, color) {
+  return { type: SET_BOX_COLOR, row, col, color };
 }

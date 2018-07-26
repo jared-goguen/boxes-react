@@ -24,6 +24,7 @@ export const UPDATE_GRID = 'UPDATE_GRID';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const NULLIFY_BOX = 'NULLIFY_BOX';
 export const SWAP_BOXES = 'SWAP_BOXES';
+export const SET_BOX_COLOR = 'SET_BOX_COLOR';
 
 // simon
 export const RESET_SIMON = 'RESET_SIMON';
@@ -45,3 +46,8 @@ export const RESET_MEMORY = 'RESET_MEMORY';
 // slide
 export const SET_SLIDE_NULL = 'SET_SLIDE_NULL';
 export const RESET_SLIDE = 'RESET_SLIDE';
+
+// light
+export const RESET_LIGHT = 'RESET_LIGHT';
+export const INITIALIZE_LIGHT = 'INITIALIZE_LIGHT';
+export const SET_TRACKER = 'SET_TRACKER';

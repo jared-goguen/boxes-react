@@ -9,6 +9,7 @@ import Main from '../levels/Main';
 import Simon from '../levels/Simon';
 import Memory from '../levels/Memory';
 import Slide from '../levels/Slide';
+import Light from '../levels/Light';
 
 import { 
   createReducer,
@@ -20,11 +21,11 @@ let initialState = {
   height: undefined,
   instantiated: false,
   index: 0,
-  levels: [<Main />, <Simon />, <Memory />, <Slide />]
+  levels: [<Main />, <Simon />, <Memory />, <Slide />, <Light />]
 };
 
 const testState = {
-  index: 0
+  index: 4
 }
 
 initialState = Object.assign(initialState, testState || {});

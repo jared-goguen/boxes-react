@@ -6,6 +6,7 @@ import elements from './elements';
 import simon from './simon';
 import memory from './memory';
 import slide from './slide';
+import light from './light';
 
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   elements,
   simon,
   memory,
-  slide
+  slide,
+  light
 });

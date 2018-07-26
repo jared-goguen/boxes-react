@@ -53,6 +53,12 @@ class Box extends Component {
   }
 
   getInnerStyle() {
+    let color;
+    if (this.props.box.cover !== undefined) {
+      color = this.props.box.cover;
+    } else {
+      color = this.props.box.color;
+    }
     return {
       backgroundColor: this.props.box.color,
     }

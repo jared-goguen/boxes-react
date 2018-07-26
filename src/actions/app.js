@@ -11,7 +11,8 @@ import {
 
 import {
   fadeUnselected,
-  zoomUpSelected
+  unselectSelected,
+  fadeSelected
 } from './animations';
 
 
@@ -25,11 +26,12 @@ export function loadNextLevel(timeout) {
   };
 }
 
-export function transitionMain(timeoutFade, timeoutZoom, queue) {
+export function transitionMain(timeoutFade, timeoutUnselect, queue) {
   return (dispatch) => {
     dispatch(setSelected());
     fadeUnselected(timeoutFade, undefined, queue)(dispatch);
-    zoomUpSelected(timeoutZoom, undefined, queue)(dispatch);
+    unselectSelected(timeoutUnselect, undefined, queue)(dispatch);
+    fadeSelected(timeoutFade, undefined, queue)(dispatch);
     loadNextLevel(100)(dispatch);
   }
 }

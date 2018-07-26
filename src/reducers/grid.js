@@ -16,7 +16,8 @@ const baseBox = Record({
   onBoxClick: undefined,
   gridRow: undefined,
   gridCol: undefined,
-  isNull: false
+  isNull: false,
+  cover: undefined
 }, 'Box');
 
 export class Box extends baseBox {
@@ -72,6 +73,10 @@ export class Box extends baseBox {
       }
     }
     return this.merge({ classNames });
+  }
+
+  setColor(color) {
+    return this.merge({ color });
   }
 
   move(row, col) {
@@ -139,6 +144,12 @@ export class Grid extends baseGrid {
     const originalBox = this.getBox(row, col);
     const { gridRow, gridCol } = originalBox;
     return this.setInGrid(gridRow, gridCol, box);
+  }
+
+  setBoxColor(row, col, color) {
+    let box = this.getBox(row, col);
+    box = box.setColor(color);
+    return this.setBox(row, col, box);
   }
 
   updateBox(box) {
