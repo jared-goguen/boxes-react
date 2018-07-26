@@ -8,9 +8,13 @@ module.exports = {
     app: './src/index.js'
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['public']),
     new HtmlWebpackPlugin({
-      title: 'Production'
+      title: 'Boxes',
+      favicon: 'logo.svg',
+      inject: false,
+      template: require('html-webpack-template'),
+      appMountId: 'app'
     })
   ],
   output: {
